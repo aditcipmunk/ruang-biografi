@@ -1,1714 +1,3535 @@
 <!DOCTYPE html>
+
 <html lang="id">
+
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>E-Modul Interaktif - Ruang Biografi</title>
-    <!-- Favicon SVG Interaktif (Buku Ruang Biografi) -->
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><path fill='%237c3aed' d='M464 96h-192V80c0-26.5-21.5-48-48-48H48C21.5 32 0 53.5 0 80v320c0 26.5 21.5 48 48 48h176c26.5 0 48-21.5 48-48V144h192c8.8 0 16-7.2 16-16V112c0-8.8-7.2-16-16-16zM224 400c0 8.8-7.2 16-16 16H48c-8.8 0-16-7.2-16-16V80c0-8.8 7.2-16 16-16h176v336zm240-272h-176v256h176V128z'/></svg>">
+
     <!-- Tailwind CSS CDN -->
+
     <script src="https://cdn.tailwindcss.com"></script>
+
     <!-- Font Inter & Plus Jakarta Sans -->
+
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
     <!-- FontAwesome Icons -->
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
+
+
     <script>
+
         tailwind.config = {
+
             theme: {
+
                 extend: {
+
                     fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] },
+
                     colors: {
+
                         brand: {
+
                             50: '#f5f3ff', 100: '#ede9fe', 200: '#ddd6fe',
-                            300: '#c4b5fd', 500: '#7c3aed', 600: '#6d28d9', 700: '#5b21b6',
+
+                            500: '#7c3aed', 600: '#6d28d9', 700: '#5b21b6',
+
                             800: '#4c1d95', 900: '#3b0764',
+
                         }
+
                     }
+
                 }
+
             }
+
         }
 
-        // Fallback jika gambar gagal dimuat
-        function handleImageError(img, nama) {
-            const initials = nama ? nama.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase() : 'TK';
-            const parent = img.parentElement;
-            if (parent) {
-                parent.innerHTML = `
-                    <div class="w-full h-full bg-gradient-to-br from-brand-600 to-brand-800 flex flex-col items-center justify-center text-white p-4 text-center">
-                        <div class="w-14 h-14 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center font-extrabold text-xl mb-2 shadow-inner">
-                            ${initials}
-                        </div>
-                        <span class="font-bold text-xs tracking-wider uppercase opacity-90">${nama}</span>
-                    </div>
-                `;
-            }
-        }
     </script>
 
     <style>
+
         .custom-scrollbar::-webkit-scrollbar { width: 5px; }
+
         .custom-scrollbar::-webkit-scrollbar-track { background: #f1f1f1; }
+
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #ddd6fe; border-radius: 10px; }
+
         
+
         .auth-bg {
+
             background-color: #ffffff;
+
             background-image: radial-gradient(#ede9fe 1.2px, transparent 1.2px), radial-gradient(#ede9fe 1.2px, #ffffff 1.2px);
+
             background-size: 48px 48px;
+
             background-position: 0 0, 24px 24px;
+
         }
+
+
 
         @keyframes popIn {
+
             0% { transform: scale(0.92); opacity: 0; }
+
             100% { transform: scale(1); opacity: 1; }
+
         }
+
         .animate-pop {
+
             animation: popIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+
         }
+
+
+
+        /* --- ANIMASI DINAMIS & INTERAKTIF ELEGAN --- */
 
         @keyframes fadeInSlideUp {
+
             0% {
+
                 opacity: 0;
+
                 transform: translateY(18px) scale(0.99);
+
             }
+
             100% {
+
                 opacity: 1;
+
                 transform: translateY(0) scale(1);
+
             }
+
         }
+
         .animate-fade-in {
+
             animation: fadeInSlideUp 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+
         }
+
+
 
         @keyframes floatGentle {
+
             0%, 100% { transform: translateY(0px) rotate(0.8deg); }
+
             50% { transform: translateY(-8px) rotate(-0.5deg); }
+
         }
+
         .animate-float {
+
             animation: floatGentle 5s ease-in-out infinite;
+
         }
+
+
 
         @keyframes pulseGlow {
+
             0%, 100% { box-shadow: 0 0 15px rgba(124, 58, 237, 0.15); }
+
             50% { box-shadow: 0 0 25px rgba(124, 58, 237, 0.3); }
+
         }
+
         .glow-effect {
+
             animation: pulseGlow 3s ease-in-out infinite;
+
         }
+
+
+
+        /* Micro-interactions: Cards & Buttons */
 
         .card-hover-effect {
+
             transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+
         }
+
         .card-hover-effect:hover {
+
             transform: translateY(-6px) scale(1.01);
+
             box-shadow: 0 16px 32px -10px rgba(109, 40, 217, 0.15);
+
         }
+
+
 
         .nav-btn, button, .cursor-pointer {
+
             transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .nav-btn:hover {
-            transform: translateX(4px);
-        }
-        button:active {
-            transform: scale(0.97) !important;
+
         }
 
+        .nav-btn:hover {
+
+            transform: translateX(4px);
+
+        }
+
+        button:active {
+
+            transform: scale(0.97) !important;
+
+        }
+
+
+
+        /* Anotasi highlight interaktif dengan glow lembut */
+
         .anotasi-active-orientasi { 
+
             background-color: #f3e8ff !important; 
+
             border-left: 5px solid #9333ea !important; 
+
             padding: 14px !important; 
+
             border-radius: 14px;
+
             box-shadow: 0 4px 12px rgba(147, 51, 234, 0.12);
+
         }
+
         .anotasi-active-peristiwa { 
+
             background-color: #e0f2fe !important; 
+
             border-left: 5px solid #0284c7 !important; 
+
             padding: 14px !important; 
+
             border-radius: 14px;
+
             box-shadow: 0 4px 12px rgba(2, 132, 199, 0.12);
+
         }
+
         .anotasi-active-reorientasi { 
+
             background-color: #d1fae5 !important; 
+
             border-left: 5px solid #059669 !important; 
+
             padding: 14px !important; 
+
             border-radius: 14px;
+
             box-shadow: 0 4px 12px rgba(5, 150, 105, 0.12);
+
         }
+
     </style>
+
 </head>
+
+
 
 <body class="bg-slate-50 font-sans text-slate-800 antialiased h-screen overflow-hidden flex flex-col">
 
+
+
     <!-- MODAL AUTENTIKASI (LOGIN & REGISTER) -->
+
     <div id="auth-modal" class="fixed inset-0 auth-bg z-50 flex items-center justify-center p-4">
+
         <div class="bg-white rounded-3xl p-8 max-w-md w-full shadow-2xl border border-slate-100 space-y-6">
+
+            
+
             <div class="text-center space-y-2">
+
                 <div class="w-14 h-14 bg-gradient-to-tr from-brand-700 to-brand-500 rounded-2xl flex items-center justify-center text-white mx-auto text-2xl shadow-lg shadow-brand-500/30">
+
                     <i class="fa-solid fa-book-open-reader"></i>
+
                 </div>
+
                 <h2 class="text-2xl font-extrabold text-slate-900 tracking-tight">Ruang Biografi</h2>
+
                 <p class="text-xs text-slate-500">E-Modul Bahasa Indonesia Interaktif</p>
+
             </div>
+
+
 
             <div class="flex bg-slate-100 p-1.5 rounded-2xl text-xs font-bold text-slate-600">
+
                 <button type="button" onclick="switchAuthTab('login')" id="tab-btn-login" class="flex-1 py-2.5 rounded-xl transition-all bg-white text-brand-700 shadow-sm">
+
                     Log In
+
                 </button>
+
                 <button type="button" onclick="switchAuthTab('signup')" id="tab-btn-signup" class="flex-1 py-2.5 rounded-xl transition-all hover:text-slate-900">
+
                     Sign Up
+
                 </button>
+
             </div>
+
+
 
             <form id="auth-form" onsubmit="handleAuth(event)" class="space-y-4 text-xs">
+
+                
+
                 <div id="signup-fields" class="space-y-4 hidden">
+
                     <div>
+
                         <label class="font-bold text-slate-700 block mb-1.5">Nama Lengkap:</label>
+
                         <input type="text" id="auth-nama" placeholder="Masukkan nama lengkap..." class="w-full p-3 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-brand-500">
+
                     </div>
+
+
 
                     <div>
+
                         <label class="font-bold text-slate-700 block mb-1.5">Pilih Peran Akses:</label>
+
                         <div class="grid grid-cols-2 gap-3">
+
                             <label class="cursor-pointer">
+
                                 <input type="radio" name="auth-role" value="siswa" checked class="peer hidden">
+
                                 <div class="p-3 border-2 border-slate-200 rounded-xl text-center peer-checked:border-brand-600 peer-checked:bg-brand-50 peer-checked:text-brand-700 transition-all space-y-1">
+
                                     <i class="fa-solid fa-user-graduate text-base block mb-0.5"></i>
+
                                     <span class="font-bold block">Siswa</span>
+
                                 </div>
+
                             </label>
+
                             <label class="cursor-pointer">
+
                                 <input type="radio" name="auth-role" value="guru" class="peer hidden">
+
                                 <div class="p-3 border-2 border-slate-200 rounded-xl text-center peer-checked:border-brand-600 peer-checked:bg-brand-50 peer-checked:text-brand-700 transition-all space-y-1">
+
                                     <i class="fa-solid fa-chalkboard-user text-base block mb-0.5"></i>
+
                                     <span class="font-bold block">Guru</span>
+
                                 </div>
+
                             </label>
+
                         </div>
+
                     </div>
+
+                </div>
+
+
+
+                <div>
+
+                    <label class="font-bold text-slate-700 block mb-1.5">Alamat Email:</label>
+
+                    <input type="email" id="auth-email" placeholder="Masukan alamat email anda" required class="w-full p-3 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-brand-500">
+
                 </div>
 
                 <div>
-                    <label class="font-bold text-slate-700 block mb-1.5">Alamat Email:</label>
-                    <input type="email" id="auth-email" placeholder="Masukan alamat email anda" required class="w-full p-3 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-brand-500">
-                </div>
-                <div>
+
                     <label class="font-bold text-slate-700 block mb-1.5">Kata Sandi:</label>
+
                     <input type="password" id="auth-password" placeholder="••••••••" required class="w-full p-3 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-brand-500">
+
                 </div>
+
+
 
                 <button type="submit" id="auth-submit-btn" class="w-full bg-brand-600 hover:bg-brand-700 text-white font-bold py-3.5 rounded-xl transition-all shadow-md shadow-brand-500/20 text-sm flex items-center justify-center space-x-2">
+
                     <span id="btn-text">Masuk Akun</span>
+
                     <i id="btn-loader" class="fa-solid fa-circle-notch fa-spin hidden"></i>
+
                 </button>
+
             </form>
+
         </div>
+
     </div>
+
+
 
     <!-- POP-UP MODAL UCAPAN SELAMAT -->
+
     <div id="modal-selesai" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+
         <div class="bg-white rounded-3xl p-8 max-w-md w-full shadow-2xl border border-slate-100 text-center space-y-6 animate-pop">
+
             <div class="w-20 h-20 bg-emerald-100 rounded-full flex items-center justify-center text-emerald-600 mx-auto text-4xl shadow-inner">
+
                 <i class="fa-solid fa-trophy"></i>
+
             </div>
+
             
+
             <div class="space-y-2">
+
                 <h3 class="text-2xl font-extrabold text-slate-900">Selamat! 🎉</h3>
+
                 <p class="text-sm font-semibold text-brand-700">Kamu telah menyelesaikan pengerjaan modul biografi!</p>
+
                 <p class="text-xs text-slate-500 leading-relaxed">
+
                     Seluruh data hasil riset tokoh, draf biografi, serta lembar checklist revisimu telah berhasil diunggah.
+
                 </p>
+
             </div>
+
+
 
             <div class="pt-2 space-y-2">
+
                 <button type="button" onclick="tutupModalSelesai()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3.5 rounded-xl transition-all shadow-lg shadow-emerald-600/20 text-xs flex items-center justify-center space-x-2">
+
                     <i class="fa-solid fa-check"></i>
+
                     <span>Tutup & Lanjutkan Refleksi</span>
+
                 </button>
+
             </div>
+
         </div>
+
     </div>
+
+
 
     <!-- MODAL VERIFIKASI KODE GURU -->
+
     <div id="verify-guru-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+
         <div class="bg-white rounded-3xl p-8 max-w-md w-full shadow-2xl border border-slate-100 space-y-6 animate-pop">
+
             <div class="w-16 h-16 bg-amber-100 rounded-2xl flex items-center justify-center text-amber-600 mx-auto text-3xl shadow-inner">
+
                 <i class="fa-solid fa-key"></i>
+
             </div>
+
             
+
             <div class="text-center space-y-2">
+
                 <h3 class="text-2xl font-extrabold text-slate-900">Verifikasi Kode Guru</h3>
+
                 <p class="text-xs text-slate-500 leading-relaxed">
+
                     Pendaftaran peran Guru memerlukan verifikasi keamanan. Silakan masukkan <strong>Kode 6 Digit</strong> yang tertera pada Google Sheets (Kolom E).
+
                 </p>
+
             </div>
+
+
 
             <form onsubmit="handleVerifyGuruCode(event)" class="space-y-4 text-xs">
-                <div>
-                    <label class="font-bold text-slate-700 block mb-1.5">Email Guru:</label>
-                    <input type="email" id="verify-guru-email" readonly class="w-full p-3 bg-slate-100 border border-slate-200 rounded-xl outline-none font-bold text-slate-600">
-                </div>
 
                 <div>
-                    <label class="font-bold text-slate-700 block mb-1.5">Kode Keamanan (6 Digit):</label>
-                    <input type="text" id="verify-guru-code" placeholder="Contoh: 482910" required maxlength="10" class="w-full p-3 border border-brand-300 rounded-xl text-center text-lg tracking-widest font-bold outline-none focus:ring-2 focus:ring-brand-500">
+
+                    <label class="font-bold text-slate-700 block mb-1.5">Email Guru:</label>
+
+                    <input type="email" id="verify-guru-email" readonly class="w-full p-3 bg-slate-100 border border-slate-200 rounded-xl outline-none font-bold text-slate-600">
+
                 </div>
+
+
+
+                <div>
+
+                    <label class="font-bold text-slate-700 block mb-1.5">Kode Keamanan (6 Digit):</label>
+
+                    <input type="text" id="verify-guru-code" placeholder="Contoh: 482910" required maxlength="10" class="w-full p-3 border border-brand-300 rounded-xl text-center text-lg tracking-widest font-bold outline-none focus:ring-2 focus:ring-brand-500">
+
+                </div>
+
+
 
                 <div class="flex gap-2">
+
                     <button type="button" onclick="tutupVerifyModal()" class="w-1/3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-3.5 rounded-xl transition-all">
+
                         Batal
+
                     </button>
+
                     <button type="submit" id="btn-submit-verify" class="w-2/3 bg-brand-600 hover:bg-brand-700 text-white font-bold py-3.5 rounded-xl transition-all shadow-md shadow-brand-500/20 flex items-center justify-center space-x-2">
+
                         <span>Verifikasi & Aktifkan</span>
+
                         <i id="verify-loader" class="fa-solid fa-circle-notch fa-spin hidden"></i>
+
                     </button>
+
                 </div>
+
             </form>
+
         </div>
+
     </div>
 
+
+
     <!-- MAIN APP STRUCTURE -->
+
+
+
+    <!-- MOBILE TOPBAR HEADER -->
+
     <header class="lg:hidden bg-white border-b border-slate-200 p-4 flex items-center justify-between shrink-0 z-30">
+
         <div class="flex items-center space-x-3">
+
             <div class="w-9 h-9 rounded-xl bg-brand-600 flex items-center justify-center text-white shadow-md shadow-brand-500/20">
+
                 <i class="fa-solid fa-book-bookmark text-base"></i>
+
             </div>
+
             <div>
+
                 <span class="text-[9px] font-bold tracking-wider text-brand-600 uppercase block">Bahasa Indonesia Fase E</span>
+
                 <h1 class="text-base font-bold text-slate-900 leading-tight">Ruang Biografi</h1>
+
             </div>
+
         </div>
+
         <button type="button" onclick="toggleSidebar()" class="p-2 rounded-xl text-slate-700 hover:bg-slate-100 transition-all focus:outline-none" aria-label="Toggle Navigation">
+
             <i class="fa-solid fa-bars text-xl"></i>
+
         </button>
+
     </header>
+
+
+
+    <!-- BACKDROP OVERLAY UNTUK MOBILE SIDEBAR -->
 
     <div id="mobile-overlay" onclick="closeSidebar()" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-30 hidden lg:hidden transition-opacity"></div>
 
+
+
     <div class="flex flex-1 h-full overflow-hidden relative">
 
+
+
         <!-- SIDEBAR NAVIGASI KIRI -->
+
         <aside id="app-sidebar" class="fixed lg:static inset-y-0 left-0 z-40 w-72 lg:w-80 bg-white border-r border-slate-200 flex flex-col justify-between shrink-0 h-full shadow-2xl lg:shadow-sm transform -translate-x-full lg:translate-x-0 transition-transform duration-300">
+
             <div class="p-5 lg:p-6 border-b border-slate-100">
+
                 <div class="flex items-center justify-between mb-2">
+
                     <div class="flex items-center space-x-3">
+
                         <div class="w-10 h-10 rounded-xl bg-brand-600 flex items-center justify-center text-white shadow-md shadow-brand-500/20">
+
                             <i class="fa-solid fa-book-bookmark text-lg"></i>
+
                         </div>
+
                         <div>
+
                             <span class="text-[10px] font-bold tracking-wider text-brand-600 uppercase block">Bahasa Indonesia Fase E</span>
+
                             <h1 class="text-lg font-bold text-slate-900 leading-tight">Ruang Biografi</h1>
+
                         </div>
+
                     </div>
+
                     <button type="button" onclick="closeSidebar()" class="lg:hidden p-1.5 text-slate-400 hover:text-slate-700 rounded-lg">
+
                         <i class="fa-solid fa-xmark text-lg"></i>
+
                     </button>
+
                 </div>
+
+
 
                 <div class="mt-4 bg-brand-50 p-3 rounded-xl border border-brand-100 flex items-center justify-between">
+
                     <div>
+
                         <span id="user-display-name" class="font-bold text-xs text-brand-900 block truncate max-w-[170px]">Belum Login</span>
+
                         <span id="user-display-role" class="text-[10px] bg-brand-200 text-brand-800 font-bold px-2 py-0.5 rounded-full uppercase">Siswa</span>
+
                     </div>
+
                     <button onclick="logout()" class="text-xs text-rose-600 hover:text-rose-800 font-bold p-1">
+
                         <i class="fa-solid fa-right-from-bracket"></i>
+
                     </button>
+
                 </div>
+
+
 
                 <div class="mt-3 bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+
                     <div class="flex justify-between items-center text-[11px] mb-1 font-medium">
+
                         <span class="text-slate-500">Progres Modul</span>
+
                         <span id="progress-text" class="text-brand-600 font-semibold">Langkah 1 dari 10</span>
+
                     </div>
+
                     <div class="w-full bg-slate-200 h-2 rounded-full overflow-hidden">
+
                         <div id="progress-bar" class="bg-brand-600 h-full rounded-full transition-all duration-300" style="width: 10%;"></div>
+
                     </div>
+
                 </div>
+
             </div>
 
+
+
             <!-- Menu Navigation -->
+
             <nav class="flex-1 overflow-y-auto p-4 space-y-1 custom-scrollbar">
+
                 <div class="px-3 py-1.5 text-[11px] font-bold tracking-wider text-slate-400 uppercase">Pengantar</div>
+
                 
+
                 <button type="button" onclick="switchTab('beranda')" id="btn-beranda" class="nav-btn w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-sm font-semibold transition-all bg-brand-50 text-brand-700">
+
                     <i class="fa-solid fa-house w-5 text-center"></i>
+
                     <span>1. Beranda</span>
+
                 </button>
 
+
+
                 <button type="button" onclick="switchTab('kompetensi')" id="btn-kompetensi" class="nav-btn w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-100 transition-all">
+
                     <i class="fa-solid fa-bullseye w-5 text-center"></i>
+
                     <span>2. Kompetensi</span>
+
                 </button>
+
+
 
                 <div class="px-3 pt-4 pb-1.5 text-[11px] font-bold tracking-wider text-slate-400 uppercase">Proses Menulis Teks</div>
 
+
+
                 <button type="button" onclick="switchTab('pemantik')" id="btn-pemantik" class="nav-btn w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-100 transition-all">
+
                     <i class="fa-solid fa-lightbulb w-5 text-center"></i>
+
                     <span>3. Pemantik</span>
+
                 </button>
+
+
 
                 <button type="button" onclick="switchTab('materi')" id="btn-materi" class="nav-btn w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-100 transition-all">
+
                     <i class="fa-solid fa-book-open w-5 text-center"></i>
+
                     <span>4. Materi</span>
+
                 </button>
+
+
 
                 <button type="button" onclick="switchTab('diagnostik')" id="btn-diagnostik" class="nav-btn w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-100 transition-all">
+
                     <i class="fa-solid fa-clipboard-question w-5 text-center"></i>
+
                     <span>5. Diagnostik</span>
+
                 </button>
+
+
 
                 <button type="button" onclick="switchTab('model')" id="btn-model" class="nav-btn w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-100 transition-all">
+
                     <i class="fa-solid fa-file-lines w-5 text-center"></i>
+
                     <span>6. Model Teks</span>
+
                 </button>
+
+
 
                 <button type="button" onclick="switchTab('datatokoh')" id="btn-datatokoh" class="nav-btn w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-100 transition-all">
+
                     <i class="fa-solid fa-user-gear w-5 text-center"></i>
+
                     <span>7. Data Tokoh</span>
+
                 </button>
+
+
 
                 <button type="button" onclick="switchTab('outline')" id="btn-outline" class="nav-btn w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-100 transition-all">
+
                     <i class="fa-solid fa-sitemap w-5 text-center"></i>
+
                     <span>8. Kerangka Teks (Outline)</span>
+
                 </button>
+
+
 
                 <button type="button" onclick="switchTab('draf')" id="btn-draf" class="nav-btn w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-100 transition-all">
+
                     <i class="fa-solid fa-pen-nib w-5 text-center"></i>
+
                     <span>9. Draf Teks</span>
+
                 </button>
 
+
+
                 <button type="button" onclick="switchTab('revisi')" id="btn-revisi" class="nav-btn w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-100 transition-all">
+
                     <i class="fa-solid fa-check-double w-5 text-center"></i>
+
                     <span>10. Revisi</span>
+
                 </button>
+
+
 
                 <div class="px-3 pt-4 pb-1.5 text-[11px] font-bold tracking-wider text-slate-400 uppercase">Refleksi Akhir</div>
 
+
+
                 <button type="button" onclick="switchTab('refleksi')" id="btn-refleksi" class="nav-btn w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-100 transition-all">
+
                     <i class="fa-solid fa-brain w-5 text-center"></i>
+
                     <span>Refleksi</span>
+
                 </button>
 
+
+
                 <!-- KHUSUS MENU PANEL GURU -->
+
                 <div id="guru-menu-group" class="hidden">
+
                     <div class="px-3 pt-4 pb-1.5 text-[11px] font-bold tracking-wider text-amber-600 uppercase">Panel Pendidik</div>
+
                     <button type="button" onclick="switchTab('dashboard-guru')" id="btn-dashboard-guru" class="nav-btn w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-sm font-bold text-amber-800 bg-amber-50 hover:bg-amber-100 transition-all">
+
                         <i class="fa-solid fa-chart-line w-5 text-center"></i>
+
                         <span>Dashboard Nilai Siswa</span>
+
                     </button>
+
                 </div>
+
             </nav>
 
+
+
             <div class="p-4 border-t border-slate-100 text-xs text-slate-400 text-center">
+
                 E-Modul Biografi &bull; SMK Kelas X
+
             </div>
+
         </aside>
 
+
+
         <!-- MAIN CONTENT AREA -->
+
         <main class="flex-1 h-full overflow-y-auto p-4 md:p-8 custom-scrollbar">
+
             <div class="max-w-5xl mx-auto pb-12">
 
+
+
                 <!-- 1. TAB BERANDA -->
+
                 <div id="tab-beranda" class="tab-content block space-y-8 animate-fade-in">
+
+                    <!-- Hero Banner Card -->
+
                     <div class="bg-gradient-to-r from-brand-700 to-brand-600 rounded-3xl p-8 md:p-10 text-white shadow-xl glow-effect relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-8">
+
                         <div class="space-y-4 max-w-xl z-10">
+
                             <span class="inline-block bg-white/20 backdrop-blur-md text-white text-xs font-semibold px-3 py-1.5 rounded-full tracking-wide">
+
                                 E-MODUL INTERAKTIF • KELAS X SMK
+
                             </span>
+
                             <h2 class="text-3xl md:text-4xl font-extrabold leading-tight">Menulis Teks Biografi</h2>
+
                             <p class="text-brand-100 text-sm md:text-base leading-relaxed">
+
                                 Belajar menulis biografi melalui aktivitas mengamati, menelusuri fakta, menyusun kerangka, menulis, dan merevisi secara bertahap.
+
                             </p>
+
                             <div class="pt-2">
+
                                 <button type="button" onclick="switchTab('kompetensi')" class="bg-white text-brand-700 font-bold px-6 py-3 rounded-xl shadow-md hover:bg-brand-50 transition-all flex items-center space-x-2 text-sm">
+
                                     <span>Mulai Belajar</span>
+
                                     <i class="fa-solid fa-arrow-right"></i>
+
                                 </button>
+
                             </div>
+
                         </div>
+
+
+
+                        <!-- Notebook Illustration Card -->
 
                         <div class="relative z-10 w-full md:w-72 bg-white/95 backdrop-blur-md p-4 rounded-2xl shadow-2xl border border-white/40 space-y-3 animate-float transition-all duration-300">
+
                             <div class="h-32 bg-slate-100 rounded-xl overflow-hidden relative border border-slate-200">
+
                                 <img src="https://images.unsplash.com/photo-1517842645767-c639042777db?auto=format&fit=crop&q=80&w=400" alt="Notebook" class="w-full h-full object-cover opacity-90">
+
                             </div>
+
                             <div class="bg-brand-50 p-2.5 rounded-xl border border-brand-100 text-center">
+
                                 <p class="text-[11px] font-bold text-brand-800 italic">"Dari fakta menjadi kisah yang bermakna"</p>
+
                             </div>
+
                         </div>
+
                     </div>
 
+
+
+                    <!-- Three Feature Cards Below -->
+
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
                         <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-3 card-hover-effect">
+
                             <div class="w-12 h-12 bg-brand-50 rounded-2xl flex items-center justify-center text-brand-600 text-lg shadow-inner">
+
                                 <i class="fa-solid fa-stairs"></i>
+
                             </div>
+
                             <h3 class="font-bold text-slate-900 text-base">Belajar bertahap</h3>
+
                             <p class="text-xs text-slate-500 leading-relaxed">Ikuti alur dari membangun konteks hingga menulis mandiri secara sistematis.</p>
+
                         </div>
+
                         <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-3 card-hover-effect">
+
                             <div class="w-12 h-12 bg-sky-50 rounded-2xl flex items-center justify-center text-sky-600 text-lg shadow-inner">
+
                                 <i class="fa-solid fa-headphones"></i>
+
                             </div>
+
                             <h3 class="font-bold text-slate-900 text-base">Audio-visual</h3>
+
                             <p class="text-xs text-slate-500 leading-relaxed">Gunakan pemantik visual dan narasi untuk menemukan inspirasi riset tokoh.</p>
+
                         </div>
+
                         <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-3 card-hover-effect">
+
                             <div class="w-12 h-12 bg-emerald-50 rounded-2xl flex items-center justify-center text-emerald-600 text-lg shadow-inner">
+
                                 <i class="fa-solid fa-pen-nib"></i>
+
                             </div>
+
                             <h3 class="font-bold text-slate-900 text-base">Produk nyata</h3>
+
                             <p class="text-xs text-slate-500 leading-relaxed">Hasil akhir belajar adalah teks biografi yang runtut, akurat, dan etis.</p>
+
                         </div>
+
                     </div>
+
                 </div>
+
+
 
                 <!-- 2. TAB KOMPETENSI -->
+
                 <div id="tab-kompetensi" class="tab-content hidden space-y-8 animate-fade-in">
+
+                    <!-- Section Title & Subtitle -->
+
                     <div class="space-y-1">
+
                         <span class="text-[10px] font-bold text-brand-600 uppercase tracking-widest">ARAH BELAJAR</span>
+
                         <h2 class="text-3xl font-extrabold text-slate-900">Peta Kompetensi</h2>
+
                     </div>
+
+
+
+                    <!-- Two Main Cards: CP & TP -->
 
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+                        <!-- CP Card (spanning 2 cols) -->
+
                         <div class="md:col-span-2 bg-white p-8 rounded-3xl border border-slate-200 shadow-sm space-y-4">
+
                             <h3 class="text-xl font-bold text-slate-900">Capaian Pembelajaran Fase E — Elemen Menulis</h3>
+
                             <p class="text-xs md:text-sm text-slate-600 leading-relaxed">
+
                                 Peserta didik mampu menulis gagasan, pikiran, pandangan, arahan atau pesan tertulis untuk berbagai tujuan secara logis, kritis, dan kreatif dalam bentuk teks informasional dan/atau fiksi. Peserta didik mampu menerbitkan hasil tulisan di media cetak maupun digital.
+
                             </p>
+
                         </div>
+
+
+
+                        <!-- TP Card -->
 
                         <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm space-y-4">
+
                             <h3 class="text-xl font-bold text-slate-900">Tujuan Pembelajaran</h3>
+
                             <ul class="text-xs text-slate-600 space-y-3 leading-relaxed">
+
                                 <li class="flex items-start space-x-2">
+
                                     <i class="fa-solid fa-check text-brand-600 mt-0.5"></i>
+
                                     <span>Mengidentifikasi struktur dan kaidah kebahasaan teks biografi.</span>
+
                                 </li>
+
                                 <li class="flex items-start space-x-2">
+
                                     <i class="fa-solid fa-check text-brand-600 mt-0.5"></i>
+
                                     <span>Mengumpulkan dan memilih fakta relevan tentang tokoh secara etis.</span>
+
                                 </li>
+
                                 <li class="flex items-start space-x-2">
+
                                     <i class="fa-solid fa-check text-brand-600 mt-0.5"></i>
+
                                     <span>Menyusun teks biografi yang runtut, akurat, dan inspiratif.</span>
+
                                 </li>
+
                             </ul>
+
                         </div>
+
                     </div>
+
+
+
+                    <!-- Sintaks Pedagogi Genre Section -->
 
                     <div class="space-y-4 pt-4">
+
                         <h3 class="text-xl font-bold text-slate-900">Sintaks Pedagogi Genre</h3>
+
                         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+
                             <div class="bg-brand-700 text-white p-6 rounded-3xl shadow-md space-y-2">
+
                                 <span class="text-xs font-extrabold uppercase tracking-wider block opacity-80">1. Membangun Konteks</span>
+
                                 <p class="text-xs text-brand-100 leading-relaxed">Mengenali tujuan dan tokoh yang layak ditulis.</p>
+
                             </div>
+
                             <div class="bg-brand-700 text-white p-6 rounded-3xl shadow-md space-y-2">
+
                                 <span class="text-xs font-extrabold uppercase tracking-wider block opacity-80">2. Pemodelan</span>
+
                                 <p class="text-xs text-brand-100 leading-relaxed">Membaca serta membedah teks contoh.</p>
+
                             </div>
+
                             <div class="bg-brand-700 text-white p-6 rounded-3xl shadow-md space-y-2">
+
                                 <span class="text-xs font-extrabold uppercase tracking-wider block opacity-80">3. Konstruksi Terbimbing</span>
+
                                 <p class="text-xs text-brand-100 leading-relaxed">Mengumpulkan data dan menyusun outline.</p>
+
                             </div>
+
                             <div class="bg-brand-800 text-white p-6 rounded-3xl shadow-md space-y-2 border border-brand-600">
+
                                 <span class="text-xs font-extrabold uppercase tracking-wider block opacity-80">4. Konstruksi Mandiri</span>
+
                                 <p class="text-xs text-brand-100 leading-relaxed">Menulis, merevisi, dan menerbitkan teks.</p>
+
                             </div>
+
                         </div>
+
                     </div>
+
                 </div>
+
+
 
                 <!-- 3. TAB PEMANTIK -->
+
                 <div id="tab-pemantik" class="tab-content hidden space-y-6 animate-fade-in">
+
                     <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm space-y-6">
+
                         <div class="border-b border-slate-100 pb-4">
+
                             <span class="text-xs font-bold text-brand-600 uppercase tracking-wider">Langkah 3</span>
+
                             <h2 class="text-2xl font-bold text-slate-900">Pemantik Inspirasi Tokoh</h2>
+
                             <p class="text-xs text-slate-500 mt-1">Mengamati tokoh inspiratif melalui tontonan video sebelum mulai menulis.</p>
+
                         </div>
 
-                        <!-- Embedded YouTube Video Container -->
+
+
+                        <!-- Video Thumbnail Card -->
+
                         <div class="space-y-3">
-                            <div class="relative w-full overflow-hidden rounded-2xl shadow-lg aspect-video bg-slate-900 border border-slate-200">
-                                <iframe class="w-full h-full" src="https://www.youtube.com/embed/jXDUjbmDck0" title="Video Pemantik Habibie" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-                            </div>
+
+                            <a href="https://www.youtube.com/watch?v=8-I-NfNqA6g" target="_blank" rel="noopener noreferrer" class="group relative block w-full overflow-hidden rounded-2xl shadow-lg aspect-video bg-slate-900 border border-slate-800">
+
+                                <img src="https://img.youtube.com/vi/8-I-NfNqA6g/maxresdefault.jpg" alt="Video Pemantik Habibie" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-300">
+
+                                
+
+                                <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-all flex flex-col items-center justify-center p-4">
+
+                                    <div class="w-16 h-16 bg-red-600 group-hover:bg-red-700 text-white rounded-2xl flex items-center justify-center shadow-xl group-hover:scale-110 transition-all duration-300 mb-3">
+
+                                        <i class="fa-solid fa-play text-2xl ml-1"></i>
+
+                                    </div>
+
+                                    <span class="bg-black/60 backdrop-blur-md text-white font-bold text-xs px-4 py-2 rounded-xl border border-white/20 shadow-md flex items-center space-x-2">
+
+                                        <i class="fa-brands fa-youtube text-red-500 text-sm"></i>
+
+                                        <span>Klik untuk Tonton di YouTube</span>
+
+                                        <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+
+                                    </span>
+
+                                </div>
+
+                            </a>
+
                             
-                            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between text-xs text-slate-500 gap-2 px-1">
-                                <span class="italic font-medium text-slate-600">
-                                    Video Pemantik: Kisah & Perjalanan Inspiratif Tokoh <br class="hidden sm:inline">
-                                    <span class="text-slate-400 font-normal">Sumber: Youtube/AkuPaham - Biografi, Inspirasi, Motivasi/Biografi BJ Habibie (Animasi) - Presiden & Teknokrat Pesawat Terbang Jenius Kebanggaan Indonesia</span>
-                                </span>
-                                <a href="https://youtu.be/jXDUjbmDck0?si=ox3A-1FNzTC3IVsE" target="_blank" rel="noopener noreferrer" class="inline-flex items-center space-x-1.5 font-bold text-red-600 hover:text-red-700 bg-red-50 hover:bg-red-100 px-3.5 py-2 rounded-xl transition-all shrink-0">
+
+                            <div class="flex items-center justify-between text-xs text-slate-500 px-1">
+
+                                <span class="italic">Video Pemantik: Perjalanan Hidup & Perjuangan B.J. Habibie</span>
+
+                                <a href="https://www.youtube.com/watch?v=8-I-NfNqA6g" target="_blank" rel="noopener noreferrer" class="inline-flex items-center space-x-1.5 font-bold text-red-600 hover:text-red-700 bg-red-50 hover:bg-red-100 px-3 py-1.5 rounded-lg transition-all">
+
                                     <i class="fa-brands fa-youtube text-sm"></i>
+
                                     <span>Buka di Youtube</span>
+
                                     <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+
                                 </a>
+
                             </div>
+
                         </div>
+
+
 
                         <div class="space-y-4">
+
                             <h3 class="font-bold text-slate-800 text-sm">Pertanyaan Refleksi Awal:</h3>
+
                             <div class="space-y-3 text-xs">
+
                                 <div class="p-4 bg-slate-50 border border-slate-100 rounded-xl">
+
                                     <p class="font-semibold text-slate-700 mb-1">1. Siapa satu tokoh di sekitarmu (guru, alumni, pengusaha) yang paling kamu kagumi?</p>
+
                                     <input type="text" id="pemantik-tokoh" placeholder="Tuliskan nama tokoh..." class="w-full p-2.5 mt-2 bg-white border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-brand-500">
+
                                 </div>
+
                                 <div class="p-4 bg-slate-50 border border-slate-100 rounded-xl">
+
                                     <p class="font-semibold text-slate-700 mb-1">2. Nilai karakter atau perjuangan apa dari tokoh tersebut yang paling menginspirasimu?</p>
+
                                     <input type="text" id="pemantik-nilai" placeholder="Contoh: Kejujuran, ketekunan, pantang menyerah..." class="w-full p-2.5 mt-2 bg-white border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-brand-500">
+
                                 </div>
+
                             </div>
+
                         </div>
+
                     </div>
+
                 </div>
+
+
 
                 <!-- 4. TAB MATERI -->
+
                 <div id="tab-materi" class="tab-content hidden space-y-6 animate-fade-in">
+
                     <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm space-y-6">
+
                         <div class="border-b border-slate-100 pb-4 flex justify-between items-center">
+
                             <div>
+
                                 <span class="text-xs font-bold text-brand-600 uppercase tracking-wider">Langkah 4</span>
+
                                 <h2 class="text-2xl font-bold text-slate-900">Materi Lengkap: Teks Biografi</h2>
+
                                 <p class="text-xs text-slate-500 mt-1">Pelajari pengertian, struktur, dan kaidah kebahasaan secara menyeluruh.</p>
+
                             </div>
+
+                            <!-- Tombol Edit Khusus Guru -->
+
                             <button id="btn-edit-materi" onclick="toggleEditMateri()" class="hidden bg-amber-500 hover:bg-amber-600 text-white font-bold px-4 py-2 rounded-xl text-xs flex items-center space-x-2 transition-all shadow-sm">
+
                                 <i class="fa-solid fa-pen-to-square"></i>
+
                                 <span id="text-edit-materi">Edit Materi</span>
+
                             </button>
+
                         </div>
+
+
 
                         <div class="flex border-b border-slate-200 space-x-2 text-xs font-semibold overflow-x-auto">
+
                             <button type="button" onclick="switchSubMateri('definisi')" id="subbtn-definisi" class="submateri-btn px-4 py-3 border-b-2 border-brand-600 text-brand-600 transition-all">Definisi & Ciri</button>
+
                             <button type="button" onclick="switchSubMateri('struktur')" id="subbtn-struktur" class="submateri-btn px-4 py-3 border-b-2 border-transparent text-slate-500 hover:text-slate-800 transition-all">Struktur Teks</button>
+
                             <button type="button" onclick="switchSubMateri('kebahasaan')" id="subbtn-kebahasaan" class="submateri-btn px-4 py-3 border-b-2 border-transparent text-slate-500 hover:text-slate-800 transition-all">Kaidah Kebahasaan</button>
+
                         </div>
+
+
 
                         <div id="sub-definisi" class="submateri-content block space-y-4">
+
                             <div class="bg-brand-50/50 p-5 rounded-2xl border border-brand-100">
+
                                 <h3 class="font-bold text-brand-800 text-sm mb-2">Pengertian Teks Biografi</h3>
+
                                 <p id="materi-definisi-text" class="text-xs text-slate-600 leading-relaxed">
+
                                     <strong>Teks Biografi</strong> adalah teks narasi faktual yang mengisahkan riwayat hidup seorang tokoh nyata yang ditulis oleh orang lain. Teks ini berfokus pada perjalanan hidup, pencapaian, rintangan yang dihadapi, serta nilai keteladanan bagi pembaca.
+
                                 </p>
+
                             </div>
+
+
 
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+
                                 <div class="p-4 border border-slate-200 rounded-xl space-y-2">
+
                                     <h4 class="font-bold text-slate-800 flex items-center space-x-2">
+
                                         <i class="fa-solid fa-check-circle text-brand-600"></i>
+
                                         <span>Ciri 1: Faktual & Otentik</span>
+
                                     </h4>
+
                                     <p class="text-slate-500">Seluruh data disusun berdasarkan kenyataan hidup tokoh tanpa ada rekayasa imajinatif.</p>
+
                                 </div>
+
                                 <div class="p-4 border border-slate-200 rounded-xl space-y-2">
+
                                     <h4 class="font-bold text-slate-800 flex items-center space-x-2">
+
                                         <i class="fa-solid fa-check-circle text-brand-600"></i>
+
                                         <span>Ciri 2: Nilai Keteladanan</span>
+
                                     </h4>
+
                                     <p class="text-slate-500">Menyajikan inspirasi karakter seperti ketekunan, kejujuran, atau kedisiplinan tokoh.</p>
+
                                 </div>
+
                             </div>
+
                         </div>
+
+
 
                         <div id="sub-struktur" class="submateri-content hidden space-y-4">
+
                             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+
                                 <div class="p-5 bg-white border-2 border-brand-100 rounded-2xl space-y-2">
+
                                     <span class="text-[10px] font-bold uppercase tracking-wider text-brand-600 bg-brand-50 px-2 py-1 rounded">Bagian 1</span>
+
                                     <h4 class="font-bold text-slate-900 text-sm">Orientasi</h4>
+
                                     <p class="text-xs text-slate-600 leading-relaxed">Pengenalan latar belakang, nama, tempat tanggal lahir, serta gambaran umum identitas awal tokoh.</p>
+
                                 </div>
+
                                 <div class="p-5 bg-white border-2 border-brand-100 rounded-2xl space-y-2">
+
                                     <span class="text-[10px] font-bold uppercase tracking-wider text-brand-600 bg-brand-50 px-2 py-1 rounded">Bagian 2</span>
+
                                     <h4 class="font-bold text-slate-900 text-sm">Peristiwa Penting</h4>
+
                                     <p class="text-xs text-slate-600 leading-relaxed">Rangkaian peristiwa kronologis, pencapaian, tantangan, dan perjuangan utama yang dialami tokoh.</p>
+
                                 </div>
+
                                 <div class="p-5 bg-white border-2 border-brand-100 rounded-2xl space-y-2">
+
                                     <span class="text-[10px] font-bold uppercase tracking-wider text-brand-600 bg-brand-50 px-2 py-1 rounded">Bagian 3</span>
+
                                     <h4 class="font-bold text-slate-900 text-sm">Reorientasi (Opsional)</h4>
+
                                     <p class="text-xs text-slate-600 leading-relaxed">Kesimpulan atau pandangan/penilaian penulis terhadap kontribusi dan warisan nilai keteladanan tokoh.</p>
+
                                 </div>
+
                             </div>
+
                         </div>
+
+
 
                         <div id="sub-kebahasaan" class="submateri-content hidden space-y-3 text-xs">
+
                             <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
+
                                 <strong class="text-brand-700">1. Pronomina Orang Ketiga</strong>: Menggunakan kata <em>ia, dia, beliau, atau nama tokoh</em>.
+
                             </div>
+
                             <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
+
                                 <strong class="text-brand-700">2. Verba Material (Tindakan)</strong>: Kata kerja aktivitas fisik seperti <em>mendirikan, menulis, meneliti, merancang</em>.
+
                             </div>
+
                             <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
+
                                 <strong class="text-brand-700">3. Adjektiva (Kata Sifat)</strong>: Menggambarkan karakter tokoh seperti <em>tekun, gigih, dermawan, bijaksana</em>.
+
                             </div>
+
                         </div>
+
                     </div>
+
                 </div>
+
+
 
                 <!-- 5. TAB DIAGNOSTIK -->
+
                 <div id="tab-diagnostik" class="tab-content hidden space-y-6 animate-fade-in">
+
                     <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm space-y-6">
+
                         <div class="border-b border-slate-100 pb-4 flex justify-between items-start">
+
                             <div>
+
                                 <span class="text-xs font-bold text-brand-600 uppercase tracking-wider">Langkah 5</span>
+
                                 <h2 class="text-2xl font-bold text-slate-900">Kuis Diagnostik Pemahaman (6 Soal)</h2>
+
                                 <p class="text-xs text-slate-500 mt-1">Uji pemahamanmu seputar teks biografi setelah mempelajari materi dasar.</p>
+
                             </div>
+
                             <span class="bg-brand-50 text-brand-700 text-xs font-bold px-3 py-1 rounded-full border border-brand-100">Evaluasi Diagnostik</span>
+
                         </div>
+
+
 
                         <div class="space-y-6">
+
+                            <!-- Soal 1 -->
+
                             <div class="p-5 rounded-2xl border border-slate-200 space-y-3 bg-slate-50/50">
+
                                 <p class="text-sm font-semibold text-slate-800">1. Apa perbedaan mendasar antara teks biografi dan otobiografi?</p>
+
                                 <div class="space-y-2">
+
                                     <label class="flex items-center space-x-3 p-3 rounded-xl bg-white border border-slate-200 cursor-pointer text-xs">
+
                                         <input type="radio" name="diag_q1" value="A" class="text-brand-600 focus:ring-brand-500">
+
                                         <span>A. Biografi ditulis oleh orang lain, sedangkan otobiografi ditulis oleh tokoh itu sendiri.</span>
+
                                     </label>
+
                                     <label class="flex items-center space-x-3 p-3 rounded-xl bg-white border border-slate-200 cursor-pointer text-xs">
+
                                         <input type="radio" name="diag_q1" value="B" class="text-brand-600 focus:ring-brand-500">
+
                                         <span>B. Biografi bersifat karangan fiksi, sedangkan otobiografi berupa fakta lapangan.</span>
+
                                     </label>
+
                                 </div>
+
                             </div>
 
+
+
+                            <!-- Soal 2 -->
+
                             <div class="p-5 rounded-2xl border border-slate-200 space-y-3 bg-slate-50/50">
+
                                 <p class="text-sm font-semibold text-slate-800">2. Bagian struktur yang berisi gambaran awal identitas dan latar belakang tokoh dinamakan...</p>
+
                                 <div class="space-y-2">
+
                                     <label class="flex items-center space-x-3 p-3 rounded-xl bg-white border border-slate-200 cursor-pointer text-xs">
+
                                         <input type="radio" name="diag_q2" value="A" class="text-brand-600 focus:ring-brand-500">
+
                                         <span>A. Reorientasi</span>
+
                                     </label>
+
                                     <label class="flex items-center space-x-3 p-3 rounded-xl bg-white border border-slate-200 cursor-pointer text-xs">
+
                                         <input type="radio" name="diag_q2" value="B" class="text-brand-600 focus:ring-brand-500">
+
                                         <span>B. Orientasi</span>
+
                                     </label>
+
                                 </div>
+
                             </div>
 
+
+
+                            <!-- Soal 3 -->
+
                             <div class="p-5 rounded-2xl border border-slate-200 space-y-3 bg-slate-50/50">
+
                                 <p class="text-sm font-semibold text-slate-800">3. Bagian Reorientasi pada teks biografi berisikan...</p>
+
                                 <div class="space-y-2">
+
                                     <label class="flex items-center space-x-3 p-3 rounded-xl bg-white border border-slate-200 cursor-pointer text-xs">
+
                                         <input type="radio" name="diag_q3" value="A" class="text-brand-600 focus:ring-brand-500">
+
                                         <span>A. Pandangan/simpulan penulis dan pesan keteladanan tokoh.</span>
+
                                     </label>
+
                                     <label class="flex items-center space-x-3 p-3 rounded-xl bg-white border border-slate-200 cursor-pointer text-xs">
+
                                         <input type="radio" name="diag_q3" value="B" class="text-brand-600 focus:ring-brand-500">
+
                                         <span>B. Rincian tanggal lahir dan alamat tempat tinggal tokoh.</span>
+
                                     </label>
+
                                 </div>
+
                             </div>
 
+
+
+                            <!-- Soal 4 -->
+
                             <div class="p-5 rounded-2xl border border-slate-200 space-y-3 bg-slate-50/50">
+
                                 <p class="text-sm font-semibold text-slate-800">4. Contoh kata kerja tindakan (verba material) yang tepat di bawah ini adalah...</p>
+
                                 <div class="space-y-2">
+
                                     <label class="flex items-center space-x-3 p-3 rounded-xl bg-white border border-slate-200 cursor-pointer text-xs">
+
                                         <input type="radio" name="diag_q4" value="A" class="text-brand-600 focus:ring-brand-500">
+
                                         <span>A. Mendirikan, merancang, meneliti</span>
+
                                     </label>
+
                                     <label class="flex items-center space-x-3 p-3 rounded-xl bg-white border border-slate-200 cursor-pointer text-xs">
+
                                         <input type="radio" name="diag_q4" value="B" class="text-brand-600 focus:ring-brand-500">
+
                                         <span>B. Cerdas, bijaksana, dermawan</span>
+
                                     </label>
+
                                 </div>
+
                             </div>
 
+
+
+                            <!-- Soal 5 -->
+
                             <div class="p-5 rounded-2xl border border-slate-200 space-y-3 bg-slate-50/50">
+
                                 <p class="text-sm font-semibold text-slate-800">5. Kata ganti (pronomina) utama yang digunakan dalam teks biografi adalah...</p>
+
                                 <div class="space-y-2">
+
                                     <label class="flex items-center space-x-3 p-3 rounded-xl bg-white border border-slate-200 cursor-pointer text-xs">
+
                                         <input type="radio" name="diag_q5" value="A" class="text-brand-600 focus:ring-brand-500">
+
                                         <span>A. Kata ganti orang ketiga (ia, dia, beliau)</span>
+
                                     </label>
+
                                     <label class="flex items-center space-x-3 p-3 rounded-xl bg-white border border-slate-200 cursor-pointer text-xs">
+
                                         <input type="radio" name="diag_q5" value="B" class="text-brand-600 focus:ring-brand-500">
+
                                         <span>B. Kata ganti orang pertama (aku, saya)</span>
+
                                     </label>
+
                                 </div>
+
                             </div>
 
+
+
+                            <!-- Soal 6 -->
+
                             <div class="p-5 rounded-2xl border border-slate-200 space-y-3 bg-slate-50/50">
+
                                 <p class="text-sm font-semibold text-slate-800">6. Sumber utama pembuatan teks biografi harus bersifat...</p>
+
                                 <div class="space-y-2">
+
                                     <label class="flex items-center space-x-3 p-3 rounded-xl bg-white border border-slate-200 cursor-pointer text-xs">
+
                                         <input type="radio" name="diag_q6" value="A" class="text-brand-600 focus:ring-brand-500">
+
                                         <span>A. Fakta otentik hasil wawancara atau dokumen resmi.</span>
+
                                     </label>
+
                                     <label class="flex items-center space-x-3 p-3 rounded-xl bg-white border border-slate-200 cursor-pointer text-xs">
+
                                         <input type="radio" name="diag_q6" value="B" class="text-brand-600 focus:ring-brand-500">
+
                                         <span>B. Imajinasi dan opini bebas tanpa perlu riset.</span>
+
                                     </label>
+
                                 </div>
+
                             </div>
+
+
 
                             <button type="button" id="btn-submit-diag" onclick="checkDiagnostic()" class="w-full bg-brand-600 text-white font-bold py-3.5 rounded-xl hover:bg-brand-700 transition-all shadow-sm flex items-center justify-center space-x-2 text-sm">
+
                                 <i class="fa-solid fa-check-circle"></i>
+
                                 <span>Periksa Jawaban Diagnostik & Simpan Nilai</span>
+
                             </button>
+
+
 
                             <div id="diag-result" class="hidden p-5 rounded-2xl bg-brand-50 border border-brand-200 space-y-2">
+
                                 <h3 class="font-bold text-brand-800 text-sm flex items-center space-x-2">
+
                                     <i class="fa-solid fa-award"></i>
+
                                     <span id="diag-score-text">Skor Anda: 0/100</span>
+
                                 </h3>
+
                                 <p id="diag-feedback" class="text-xs text-brand-700 leading-relaxed"></p>
+
                             </div>
+
                         </div>
+
                     </div>
+
                 </div>
+
+
 
                 <!-- 6. TAB MODEL TEKS & PILIH TOKOH -->
+
                 <div id="tab-model" class="tab-content hidden space-y-8 animate-fade-in">
+
+                    
+
+                    <!-- KARTU 1: TEKS MODEL BERANOTASI -->
+
                     <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm space-y-6">
+
                         <div class="border-b border-slate-100 pb-4">
+
                             <span class="text-xs font-bold text-brand-600 uppercase tracking-wider">Langkah 6</span>
+
                             <h2 class="text-2xl font-bold text-slate-900">Teks Model Beranotasi</h2>
+
                             <p class="text-xs text-slate-500 mt-1">Baca teks berikut. Klik tombol anotasi untuk mengenali fungsi setiap bagian.</p>
+
                         </div>
+
+
+
+                        <!-- KOTAK TAMPILAN TEKS DENGAN JUDUL -->
 
                         <div class="p-8 bg-slate-50/70 border border-slate-200 rounded-2xl space-y-4">
+
                             <h3 class="text-center font-extrabold text-xl text-slate-900">B.J. Habibie: Ketekunan yang Mengudara</h3>
+
                             
+
                             <div class="space-y-4 text-xs md:text-sm text-slate-700 leading-relaxed">
+
                                 <p id="model-text-orientasi" class="transition-all duration-300">
+
                                     Bacharuddin Jusuf Habibie lahir di Parepare, Sulawesi Selatan, pada 25 Juni 1936. Ia dikenal sebagai ilmuwan, teknokrat, dan Presiden Republik Indonesia ketiga. Sejak muda, Habibie menunjukkan minat kuat pada ilmu pengetahuan dan teknologi.
+
                                 </p>
+
                                 <p id="model-text-peristiwa" class="transition-all duration-300">
+
                                     Setelah menempuh pendidikan teknik penerbangan di Jerman, Habibie bekerja dan mengembangkan keahliannya dalam industri pesawat terbang. Sekembalinya ke Indonesia, ia berperan dalam pengembangan industri dirgantara nasional. Ketekunannya dalam belajar dan bekerja membuatnya dipercaya memegang berbagai tanggung jawab penting.
+
                                 </p>
+
                                 <p id="model-text-reorientasi" class="transition-all duration-300">
+
                                     Perjalanan hidup Habibie menunjukkan bahwa kecintaan pada ilmu, disiplin, dan kegigihan dapat menjadi bekal untuk berkarya bagi bangsa. Kisahnya mengajak generasi muda untuk berani memiliki cita-cita serta tekun mewujudkannya.
+
                                 </p>
+
                             </div>
+
                         </div>
+
+
+
+                        <!-- TOMBOL-TOMBOL ANOTASI INTERAKTIF -->
 
                         <div class="flex flex-wrap gap-3 pt-2">
+
                             <button type="button" onclick="sorotAnotasi('orientasi')" id="btn-anotasi-orientasi" class="px-5 py-2.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 hover:bg-purple-100 hover:text-purple-800 transition-all border border-slate-200">
+
                                 Anotasi Orientasi
+
                             </button>
+
                             <button type="button" onclick="sorotAnotasi('peristiwa')" id="btn-anotasi-peristiwa" class="px-5 py-2.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 hover:bg-sky-100 hover:text-sky-800 transition-all border border-slate-200">
+
                                 Anotasi Peristiwa
+
                             </button>
+
                             <button type="button" onclick="sorotAnotasi('reorientasi')" id="btn-anotasi-reorientasi" class="px-5 py-2.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 hover:bg-emerald-100 hover:text-emerald-800 transition-all border border-slate-200">
+
                                 Anotasi Reorientasi
+
                             </button>
+
                         </div>
+
                     </div>
+
+
 
                     <!-- KARTU 2: PILIH TOKOH UNTUK DITULIS -->
+
                     <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm space-y-6">
+
                         <div>
+
                             <span class="text-[10px] font-bold text-brand-600 uppercase tracking-widest">SEBELUM MENGUMPULKAN DATA</span>
+
                             <h3 class="text-2xl font-bold text-slate-900 mt-1">Pilih Tokoh untuk Ditulis</h3>
+
                             <p class="text-xs text-slate-500 mt-1">Pilih tokoh ekonomi, pengusaha, atau akuntan yang kisah hidupnya ingin kamu telusuri. Gunakan foto sebagai pemantik, lalu cari sumber tepercaya sebelum menulis.</p>
+
                         </div>
+
+
+
+                        <!-- GRID KARTU KANDIDAT TOKOH (FOTO ASLI SESUAI TOKOH) -->
 
                         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+
+                            
+
                             <!-- Tokoh 1: Sri Mulyani -->
+
                             <div onclick="pilihTokohDirect('Sri Mulyani', 'Ekonom & Pengelola Kebijakan Publik')" class="group cursor-pointer bg-slate-50 hover:bg-brand-50/50 border border-slate-200 hover:border-brand-300 rounded-2xl overflow-hidden card-hover-effect shadow-sm flex flex-col justify-between">
+
                                 <div class="h-44 bg-slate-200 overflow-hidden relative">
-                                    <img src="https://media.kemenkeu.go.id/getmedia/69249198-778d-404a-ac08-18d61e14a620/Menkeu-Sri-Mulyani-Indrawati-Masuk-Dalam-Forbes-50-Over-50-Asia-2023-1_2?width=900&height=600&ext=.jpg" referrerpolicy="no-referrer" onerror="handleImageError(this, 'Sri Mulyani')" alt="Sri Mulyani" class="w-full h-full object-cover object-top group-hover:scale-105 transition-all duration-300">
+
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/Sri_Mulyani_Indrawati_2024.jpg" alt="Sri Mulyani" class="w-full h-full object-cover object-top group-hover:scale-105 transition-all duration-300">
+
                                 </div>
+
                                 <div class="p-4 space-y-1">
+
                                     <h4 class="font-bold text-sm text-slate-900 group-hover:text-brand-700">Sri Mulyani</h4>
+
                                     <p class="text-[11px] text-slate-500 leading-snug">Ekonom dan pengelola kebijakan publik</p>
+
                                 </div>
+
                             </div>
+
+
 
                             <!-- Tokoh 2: Chairul Tanjung -->
+
                             <div onclick="pilihTokohDirect('Chairul Tanjung', 'Pengusaha / Founder CT Corp')" class="group cursor-pointer bg-slate-50 hover:bg-brand-50/50 border border-slate-200 hover:border-brand-300 rounded-2xl overflow-hidden card-hover-effect shadow-sm flex flex-col justify-between">
+
                                 <div class="h-44 bg-slate-200 overflow-hidden relative">
-                                    <img src="https://blue.kumparan.com/image/upload/fl_progressive,fl_lossy,c_fill,f_auto,q_auto:best,w_640/v1556106053/sywjjroqgs8gb7v0ay6z.jpg" referrerpolicy="no-referrer" onerror="handleImageError(this, 'Chairul Tanjung')" alt="Chairul Tanjung" class="w-full h-full object-cover object-top group-hover:scale-105 transition-all duration-300">
+
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Chairul_Tanjung_-_World_Economic_Forum_on_East_Asia_2011.jpg" alt="Chairul Tanjung" class="w-full h-full object-cover object-top group-hover:scale-105 transition-all duration-300">
+
                                 </div>
+
                                 <div class="p-4 space-y-1">
+
                                     <h4 class="font-bold text-sm text-slate-900 group-hover:text-brand-700">Chairul Tanjung</h4>
+
                                     <p class="text-[11px] text-slate-500 leading-snug">Pengusaha dan pendiri kelompok usaha</p>
+
                                 </div>
+
                             </div>
+
+
 
                             <!-- Tokoh 3: William Tanuwijaya -->
+
                             <div onclick="pilihTokohDirect('William Tanuwijaya', 'Pengusaha Teknologi & Pendiri Startup')" class="group cursor-pointer bg-slate-50 hover:bg-brand-50/50 border border-slate-200 hover:border-brand-300 rounded-2xl overflow-hidden card-hover-effect shadow-sm flex flex-col justify-between">
+
                                 <div class="h-44 bg-slate-200 overflow-hidden relative">
-                                    <img src="http://shiftindonesia.com/wp-content/uploads/2025/07/From-Zero-To-Hero-William-Tanuwijaya-Founder-Tokopedia.jpg" referrerpolicy="no-referrer" onerror="handleImageError(this, 'William Tanuwijaya')" alt="William Tanuwijaya" class="w-full h-full object-cover object-top group-hover:scale-105 transition-all duration-300">
+
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/e/ec/William_Tanuwidjaja_2023.jpg" alt="William Tanuwijaya" class="w-full h-full object-cover object-top group-hover:scale-105 transition-all duration-300">
+
                                 </div>
+
                                 <div class="p-4 space-y-1">
+
                                     <h4 class="font-bold text-sm text-slate-900 group-hover:text-brand-700">William Tanuwijaya</h4>
+
                                     <p class="text-[11px] text-slate-500 leading-snug">Pengusaha teknologi dan pendiri perusahaan rintisan</p>
+
                                 </div>
+
                             </div>
+
+
 
                             <!-- Tokoh 4: Nadiem Makarim -->
+
                             <div onclick="pilihTokohDirect('Nadiem Makarim', 'Inovator Transportasi & Pengusaha')" class="group cursor-pointer bg-slate-50 hover:bg-brand-50/50 border border-slate-200 hover:border-brand-300 rounded-2xl overflow-hidden card-hover-effect shadow-sm flex flex-col justify-between">
+
                                 <div class="h-44 bg-slate-200 overflow-hidden relative">
-                                    <img src="https://img.antarafoto.com/cache/799x1200/2025/07/15/nadiem-makarim-diperiksa-kejagung-1j6l1-dom.jpg" referrerpolicy="no-referrer" onerror="handleImageError(this, 'Nadiem Makarim')" alt="Nadiem Makarim" class="w-full h-full object-cover object-top group-hover:scale-105 transition-all duration-300">
+
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/3/37/Nadiem_Makarim_Official_Portrait.jpg" alt="Nadiem Makarim" class="w-full h-full object-cover object-top group-hover:scale-105 transition-all duration-300">
+
                                 </div>
+
                                 <div class="p-4 space-y-1">
+
                                     <h4 class="font-bold text-sm text-slate-900 group-hover:text-brand-700">Nadiem Makarim</h4>
+
                                     <p class="text-[11px] text-slate-500 leading-snug">Pengusaha teknologi dan inovator transportasi</p>
+
                                 </div>
+
                             </div>
+
+
 
                             <!-- Tokoh 5: Sandiaga Uno -->
+
                             <div onclick="pilihTokohDirect('Sandiaga Uno', 'Pengusaha & Tokoh Ekonomi Kreatif')" class="group cursor-pointer bg-slate-50 hover:bg-brand-50/50 border border-slate-200 hover:border-brand-300 rounded-2xl overflow-hidden card-hover-effect shadow-sm flex flex-col justify-between">
+
                                 <div class="h-44 bg-slate-200 overflow-hidden relative">
-                                    <img src="https://img.antarafoto.com/cache/799x1200/2024/07/31/sandiaga-uno-hadiri-mukernas-dpp-partai-perindo-1clv3-dom.jpg" referrerpolicy="no-referrer" onerror="handleImageError(this, 'Sandiaga Uno')" alt="Sandiaga Uno" class="w-full h-full object-cover object-top group-hover:scale-105 transition-all duration-300">
+
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/6/67/Sandiaga_Uno_2022_%28cropped%29.jpg" alt="Sandiaga Uno" class="w-full h-full object-cover object-top group-hover:scale-105 transition-all duration-300">
+
                                 </div>
+
                                 <div class="p-4 space-y-1">
+
                                     <h4 class="font-bold text-sm text-slate-900 group-hover:text-brand-700">Sandiaga Uno</h4>
+
                                     <p class="text-[11px] text-slate-500 leading-snug">Pengusaha dan tokoh ekonomi kreatif</p>
+
                                 </div>
+
                             </div>
+
+
 
                             <!-- Tokoh 6: Martha Tilaar -->
+
                             <div onclick="pilihTokohDirect('Martha Tilaar', 'Pengusaha & Pelopor Industri')" class="group cursor-pointer bg-slate-50 hover:bg-brand-50/50 border border-slate-200 hover:border-brand-300 rounded-2xl overflow-hidden card-hover-effect shadow-sm flex flex-col justify-between">
+
                                 <div class="h-44 bg-slate-200 overflow-hidden relative">
-                                    <img src="https://roemahmarthatilaar.org/wp-content/uploads/2022/08/profile_IMT.jpg" referrerpolicy="no-referrer" onerror="handleImageError(this, 'Martha Tilaar')" alt="Martha Tilaar" class="w-full h-full object-cover object-top group-hover:scale-105 transition-all duration-300">
+
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/2/22/Martha_Tilaar_2015.jpg" alt="Martha Tilaar" class="w-full h-full object-cover object-top group-hover:scale-105 transition-all duration-300">
+
                                 </div>
+
                                 <div class="p-4 space-y-1">
+
                                     <h4 class="font-bold text-sm text-slate-900 group-hover:text-brand-700">Martha Tilaar</h4>
+
                                     <p class="text-[11px] text-slate-500 leading-snug">Pengusaha dan pelopor industri kecantikan</p>
+
                                 </div>
+
                             </div>
+
+
 
                             <!-- Tokoh 7: Akuntan Inspiratif -->
+
                             <div onclick="pilihTokohDirect('Akuntan Inspiratif', 'Profesional Akuntansi & Keuangan')" class="group cursor-pointer bg-slate-50 hover:bg-brand-50/50 border border-slate-200 hover:border-brand-300 rounded-2xl overflow-hidden card-hover-effect shadow-sm flex flex-col justify-between">
+
                                 <div class="h-44 bg-slate-200 overflow-hidden relative">
-                                    <img src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&q=80&w=400" referrerpolicy="no-referrer" onerror="handleImageError(this, 'Akuntan Inspiratif')" alt="Akuntan Inspiratif" class="w-full h-full object-cover object-center group-hover:scale-105 transition-all duration-300">
+
+                                    <img src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&q=80&w=400" alt="Akuntan Inspiratif" class="w-full h-full object-cover object-center group-hover:scale-105 transition-all duration-300">
+
                                 </div>
+
                                 <div class="p-4 space-y-1">
+
                                     <h4 class="font-bold text-sm text-slate-900 group-hover:text-brand-700">Akuntan Inspiratif</h4>
+
                                     <p class="text-[11px] text-slate-500 leading-snug">Profesional akuntansi dan pengelola keuangan</p>
+
                                 </div>
+
                             </div>
+
+
+
                         </div>
+
                     </div>
+
+
+
                 </div>
+
+
 
                 <!-- 7. TAB DATA TOKOH -->
+
                 <div id="tab-datatokoh" class="tab-content hidden space-y-6 animate-fade-in">
+
                     <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm space-y-6">
+
                         <div class="border-b border-slate-100 pb-4">
+
                             <span class="text-xs font-bold text-brand-600 uppercase tracking-wider">Langkah 7</span>
+
                             <h2 class="text-2xl font-bold text-slate-900">Form Pengumpulan Data Tokoh (Hasil Riset)</h2>
+
                             <p class="text-xs text-slate-500 mt-1">Lengkapi data hasil wawancara atau studi dokumentasi tokoh sasaranmu.</p>
+
                         </div>
+
+
 
                         <div class="space-y-4 text-xs">
+
                             <div>
+
                                 <label class="font-bold text-slate-700 block mb-1">Nama Lengkap & Gelar Tokoh:</label>
+
                                 <input type="text" id="form-nama-tokoh" placeholder="Contoh: Drs. H. Ahmad Sudrajat, M.Pd." class="w-full p-3 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-brand-500">
+
                             </div>
+
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
                                 <div>
+
                                     <label class="font-bold text-slate-700 block mb-1">Tempat & Tanggal Lahir:</label>
+
                                     <input type="text" id="form-ttl-tokoh" placeholder="Contoh: Bandung, 12 Agustus 1978" class="w-full p-3 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-brand-500">
+
                                 </div>
+
                                 <div>
+
                                     <label class="font-bold text-slate-700 block mb-1">Profesi / Bidang Pengabdian:</label>
+
                                     <input type="text" id="form-profesi-tokoh" placeholder="Contoh: Guru / Wirausahawan" class="w-full p-3 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-brand-500">
+
                                 </div>
+
                             </div>
+
                             <div>
+
                                 <label class="font-bold text-slate-700 block mb-1">Rintangan & Perjuangan Utama:</label>
-                                <textarea id="form-peristiwa-tokoh" placeholder="Tuliskan tantangan berat yang pernah dihadapi dan bagaimana tokoh mengatasinya..." class="w-full p-3 border border-slate-200 rounded-xl h-24 outline-none focus:ring-2 focus:ring-brand-500 leading-relaxed"></textarea>
+
+                                <textarea id="form-peristiwa-tokoh" placeholder="Tuliskan tantangan berat yang pernah dihadapi dan bagaimana tokoh mengatasinya..." class="w-full p-3 border border-slate-200 rounded-xl h-24 outline-none focus:ring-2 focus:ring-brand-500"></textarea>
+
                             </div>
+
                             <div>
+
                                 <label class="font-bold text-slate-700 block mb-1">Nilai Keteladanan Karakter Tokoh:</label>
+
                                 <input type="text" id="form-keteladanan-tokoh" placeholder="Contoh: Disiplin tinggi, suka menolong sesama..." class="w-full p-3 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-brand-500">
+
                             </div>
+
                         </div>
+
                     </div>
+
                 </div>
+
+
 
                 <!-- 8. TAB OUTLINE / KERANGKA TEKS -->
+
                 <div id="tab-outline" class="tab-content hidden space-y-6 animate-fade-in">
+
                     <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm space-y-6">
+
                         <div class="border-b border-slate-100 pb-4">
+
                             <span class="text-xs font-bold text-brand-600 uppercase tracking-wider">Langkah 8</span>
+
                             <h2 class="text-2xl font-bold text-slate-900">Kerangka Teks (Outline)</h2>
+
                             <p class="text-xs text-slate-500 mt-1">Petakan poin-poin alur paragraf sebelum menyusun draf biografi utuh.</p>
+
                         </div>
 
-                        <div class="space-y-5 text-xs">
-                            <div class="p-5 bg-slate-50/70 rounded-2xl border border-slate-200 space-y-2">
-                                <span class="font-bold text-brand-700 text-sm block">1. Poin Paragraf Orientasi (Pembuka):</span>
-                                <textarea id="form-outline-orientasi" placeholder="Tuliskan garis besar pengenalan tokoh, tempat tanggal lahir, keluarga, dan latar belakang..." class="w-full p-3.5 bg-white border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-brand-500 h-28 leading-relaxed resize-y"></textarea>
+
+
+                        <div class="space-y-4 text-xs">
+
+                            <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200 space-y-2">
+
+                                <span class="font-bold text-brand-700">1. Poin Paragraf Orientasi (Pembuka):</span>
+
+                                <input type="text" id="form-outline-orientasi" placeholder="Garis besar pengenalan tokoh, tempat lahir, dan keluarga..." class="w-full p-2.5 bg-white border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-brand-500">
+
                             </div>
 
-                            <div class="p-5 bg-slate-50/70 rounded-2xl border border-slate-200 space-y-2">
-                                <span class="font-bold text-brand-700 text-sm block">2. Poin Paragraf Peristiwa Penting (Isi / Karir):</span>
-                                <textarea id="form-outline-peristiwa" placeholder="Tuliskan garis besar kisah perjuangan, pendidikan, rintangan, dan karya tokoh..." class="w-full p-3.5 bg-white border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-brand-500 h-28 leading-relaxed resize-y"></textarea>
+                            <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200 space-y-2">
+
+                                <span class="font-bold text-brand-700">2. Poin Paragraf Peristiwa Penting (Isi / Karir):</span>
+
+                                <input type="text" id="form-outline-peristiwa" placeholder="Garis besar kisah perjuangan, pendidikan, dan karya tokoh..." class="w-full p-2.5 bg-white border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-brand-500">
+
                             </div>
 
-                            <div class="p-5 bg-slate-50/70 rounded-2xl border border-slate-200 space-y-2">
-                                <span class="font-bold text-brand-700 text-sm block">3. Poin Paragraf Reorientasi (Penutup):</span>
-                                <textarea id="form-outline-reorientasi" placeholder="Tuliskan garis besar pesan moral, pandangan penulis, dan simpulan keteladanan tokoh..." class="w-full p-3.5 bg-white border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-brand-500 h-28 leading-relaxed resize-y"></textarea>
+                            <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200 space-y-2">
+
+                                <span class="font-bold text-brand-700">3. Poin Paragraf Reorientasi (Penutup):</span>
+
+                                <input type="text" id="form-outline-reorientasi" placeholder="Garis besar pesan moral dan simpulan keteladanan tokoh..." class="w-full p-2.5 bg-white border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-brand-500">
+
                             </div>
+
                         </div>
+
                     </div>
+
                 </div>
+
+
 
                 <!-- 9. TAB DRAF -->
+
                 <div id="tab-draf" class="tab-content hidden space-y-6 animate-fade-in">
+
                     <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm space-y-4">
+
                         <div class="border-b border-slate-100 pb-4 flex justify-between items-center">
+
                             <div>
+
                                 <span class="text-xs font-bold text-brand-600 uppercase tracking-wider">Langkah 9</span>
+
                                 <h2 class="text-2xl font-bold text-slate-900">Lembar Kerja Draf Teks</h2>
+
                             </div>
+
                             <span id="word-count" class="text-xs text-slate-500 font-medium bg-slate-100 px-3 py-1.5 rounded-lg">0 Kata</span>
+
                         </div>
+
                         <textarea id="draft-textarea" oninput="updateWordCount()" placeholder="Tuliskan draf teks biografi lengkapmu secara runtut di sini..." class="w-full p-4 border border-slate-200 rounded-2xl text-xs h-64 focus:ring-2 focus:ring-brand-500 outline-none leading-relaxed"></textarea>
+
                     </div>
+
                 </div>
+
+
 
                 <!-- 10. TAB REVISI -->
+
                 <div id="tab-revisi" class="tab-content hidden space-y-6 animate-fade-in">
+
                     <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm space-y-6">
+
                         <div class="border-b border-slate-100 pb-4">
+
                             <span class="text-xs font-bold text-brand-600 uppercase tracking-wider">Langkah 10</span>
+
                             <h2 class="text-2xl font-bold text-slate-900">Checklist Pemeriksaan & Revisi Mandiri</h2>
+
                             <p class="text-xs text-slate-500 mt-1">Centang setiap kriteria jika draf tulisanmu sudah memenuhinya.</p>
+
                         </div>
+
+
 
                         <div class="space-y-3 text-xs">
+
                             <label class="flex items-center space-x-3 p-3.5 bg-slate-50 rounded-xl border border-slate-200 cursor-pointer hover:bg-brand-50/40 transition-all">
+
                                 <input type="checkbox" id="chk-revisi-1" class="w-4 h-4 text-brand-600 rounded focus:ring-brand-500">
+
                                 <span class="text-slate-700">Teks memiliki struktur utuh (Orientasi, Peristiwa Penting, Reorientasi).</span>
+
                             </label>
+
                             <label class="flex items-center space-x-3 p-3.5 bg-slate-50 rounded-xl border border-slate-200 cursor-pointer hover:bg-brand-50/40 transition-all">
+
                                 <input type="checkbox" id="chk-revisi-2" class="w-4 h-4 text-brand-600 rounded focus:ring-brand-500">
+
                                 <span class="text-slate-700">Menggunakan kata kerja tindakan (verba material) dan pronomina orang ketiga dengan tepat.</span>
+
                             </label>
+
                             <label class="flex items-center space-x-3 p-3.5 bg-slate-50 rounded-xl border border-slate-200 cursor-pointer hover:bg-brand-50/40 transition-all">
+
                                 <input type="checkbox" id="chk-revisi-3" class="w-4 h-4 text-brand-600 rounded focus:ring-brand-500">
+
                                 <span class="text-slate-700">Ejaan, tanda baca, dan penggunaan huruf kapital sudah sesuai dengan PUEBI/EBI.</span>
+
                             </label>
+
                             <label class="flex items-center space-x-3 p-3.5 bg-slate-50 rounded-xl border border-slate-200 cursor-pointer hover:bg-brand-50/40 transition-all">
+
                                 <input type="checkbox" id="chk-revisi-4" class="w-4 h-4 text-brand-600 rounded focus:ring-brand-500">
+
                                 <span class="text-slate-700">Seluruh data yang disajikan factual berdasarkan riset nyata tanpa manipulasi.</span>
+
                             </label>
+
                         </div>
+
+
+
+                        <!-- TOMBOL REVISI DAN SUBMIT -->
 
                         <div class="pt-4 border-t border-slate-100 flex items-center justify-end space-x-3">
+
                             <button type="button" onclick="simpanJawabanSiswa(false)" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold px-5 py-3.5 rounded-xl text-xs flex items-center space-x-2 transition-all">
+
                                 <i class="fa-solid fa-rotate text-sm"></i>
+
                                 <span>Update Perubahan Revisi</span>
+
                             </button>
+
                             <button id="btn-submit-revisi" onclick="simpanJawabanSiswa(true)" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-6 py-3.5 rounded-xl text-xs flex items-center space-x-2 transition-all shadow-md shadow-emerald-600/20">
+
                                 <i id="btn-submit-icon" class="fa-solid fa-cloud-arrow-up text-sm"></i>
+
                                 <span id="btn-submit-text">Upload</span>
+
                             </button>
+
                         </div>
+
                     </div>
+
                 </div>
+
+
 
                 <!-- TAB REFLEKSI -->
+
                 <div id="tab-refleksi" class="tab-content hidden space-y-6 animate-fade-in">
+
                     <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm space-y-4">
+
                         <div class="border-b border-slate-100 pb-4 flex justify-between items-center">
+
                             <div>
+
                                 <h2 class="text-2xl font-bold text-slate-900">Refleksi Belajar Mandiri</h2>
+
                                 <p class="text-xs text-slate-500 mt-1">Tuliskan kesan dan pemahamanmu setelah mempelajari seluruh modul ini.</p>
+
                             </div>
+
                             <button type="button" onclick="simpanRefleksiSaja()" class="bg-brand-600 hover:bg-brand-700 text-white font-bold px-5 py-2.5 rounded-xl text-xs flex items-center space-x-2 transition-all shadow-sm">
+
                                 <i class="fa-solid fa-floppy-disk"></i>
+
                                 <span>Save Refleksi</span>
+
                             </button>
+
                         </div>
+
                         <textarea id="form-refleksi" placeholder="Tuliskan refleksi pengalaman belajarmu..." class="w-full p-4 border border-slate-200 rounded-2xl text-xs h-36 outline-none focus:ring-2 focus:ring-brand-500 leading-relaxed"></textarea>
+
                     </div>
+
                 </div>
+
+
 
                 <!-- TAB DASHBOARD GURU -->
+
                 <div id="tab-dashboard-guru" class="tab-content hidden space-y-6 animate-fade-in">
+
                     <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm space-y-6">
+
                         <div class="border-b border-slate-100 pb-4 flex justify-between items-center">
+
                             <div>
+
                                 <h2 class="text-2xl font-bold text-slate-900">Rekapitulasi Pengerjaan Siswa</h2>
+
                                 <p class="text-xs text-slate-500 mt-1">Pantau skor kuis diagnostik, pemantik, data tokoh, dan draf tulisan seluruh siswa.</p>
+
                             </div>
+
                             <button onclick="muatDataGuru()" class="bg-brand-50 hover:bg-brand-100 text-brand-700 font-bold px-4 py-2.5 rounded-xl text-xs flex items-center space-x-2 transition-all">
+
                                 <i class="fa-solid fa-rotate-right"></i>
+
                                 <span>Refresh Data</span>
+
                             </button>
+
                         </div>
+
+
 
                         <div class="overflow-x-auto">
+
                             <table class="w-full text-xs text-left border-collapse min-w-[1300px]">
+
                                 <thead>
+
                                     <tr class="bg-slate-50 border-b border-slate-200 text-slate-600">
+
                                         <th class="p-3">Nama Siswa</th>
+
                                         <th class="p-3">Email</th>
+
                                         <th class="p-3">Diagnostik</th>
+
                                         <th class="p-3">Pemantik 1 (Tokoh)</th>
+
                                         <th class="p-3">Pemantik 2 (Nilai)</th>
+
                                         <th class="p-3 font-bold text-brand-700">Nama Tokoh Riset</th>
+
                                         <th class="p-3">TTL Tokoh</th>
+
                                         <th class="p-3">Profesi</th>
+
                                         <th class="p-3">Perjuangan</th>
+
                                         <th class="p-3">Keteladanan</th>
+
                                         <th class="p-3">Kerangka Teks</th>
+
                                         <th class="p-3">Draf Biografi</th>
+
                                         <th class="p-3">Revisi</th>
+
                                         <th class="p-3">Refleksi</th>
+
                                     </tr>
+
                                 </thead>
+
                                 <tbody id="tabel-siswa-body" class="divide-y divide-slate-100">
+
                                     <tr><td colspan="14" class="p-4 text-center text-slate-400">Klik refresh untuk memuat data dari database...</td></tr>
+
                                 </tbody>
+
                             </table>
+
                         </div>
+
                     </div>
+
                 </div>
 
+
+
             </div>
+
         </main>
+
     </div>
 
+
+
     <!-- LOGIK JAVASCRIPT -->
+
     <script>
+
         const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzip5ztBvdSNNRDbUJ4rnmRHbGQ0X9QDjfqP3lcFLTzf7IzZLl2ZPu-gOGrqB5JtClnFw/exec";
 
+
+
         let currentUser = null;
+
         let authMode = 'login';
+
         let userSkorDiagnostik = 0;
+
         let isEditingMateri = false;
+
         let isDiagnostikDone = false;
+
         let currentTabId = 'beranda';
 
+
+
+        // OTOMATIS MEMULIHKAN SESI PENGGUNA SAAT HALAMAN DI-REFRESH
+
+        window.addEventListener('DOMContentLoaded', () => {
+
+            const savedUser = localStorage.getItem('currentUser');
+
+            const savedTab = localStorage.getItem('currentTab');
+
+
+
+            if (savedUser) {
+
+                try {
+
+                    currentUser = JSON.parse(savedUser);
+
+                    document.getElementById('auth-modal').classList.add('hidden');
+
+                    updateUserUI();
+
+
+
+                    if (currentUser.role === 'siswa') {
+
+                        muatDataPengerjaanSiswa(currentUser.email);
+
+                    }
+
+
+
+                    if (savedTab) {
+
+                        switchTab(savedTab);
+
+                    } else {
+
+                        switchTab('beranda');
+
+                    }
+
+                } catch (e) {
+
+                    console.error("Gagal memuat sesi tersimpan", e);
+
+                    localStorage.removeItem('currentUser');
+
+                }
+
+            }
+
+        });
+
+
+
         function switchAuthTab(mode) {
+
             authMode = mode;
+
             const signupFields = document.getElementById('signup-fields');
+
             const submitBtnText = document.getElementById('btn-text');
+
             const btnLogin = document.getElementById('tab-btn-login');
+
             const btnSignup = document.getElementById('tab-btn-signup');
 
+
+
             if (mode === 'signup') {
+
                 signupFields.classList.remove('hidden');
+
                 submitBtnText.innerText = "Daftar Akun Baru";
+
                 btnSignup.classList.add('bg-white', 'text-brand-700', 'shadow-sm');
+
                 btnLogin.classList.remove('bg-white', 'text-brand-700', 'shadow-sm');
+
             } else {
+
                 signupFields.classList.add('hidden');
+
                 submitBtnText.innerText = "Masuk Akun";
+
                 btnLogin.classList.add('bg-white', 'text-brand-700', 'shadow-sm');
+
                 btnSignup.classList.remove('bg-white', 'text-brand-700', 'shadow-sm');
+
             }
+
         }
 
+
+
         async function handleAuth(e) {
+
             e.preventDefault();
+
             const email = document.getElementById('auth-email').value.trim();
+
             const password = document.getElementById('auth-password').value;
+
             const nama = document.getElementById('auth-nama').value.trim();
+
             const role = document.querySelector('input[name="auth-role"]:checked')?.value || 'siswa';
+
+
 
             document.getElementById('btn-loader').classList.remove('hidden');
 
+
+
             const payload = {
+
                 action: authMode,
+
                 email: email,
+
                 password: password,
+
                 nama: nama,
+
                 role: role
+
             };
 
+
+
             try {
+
                 const response = await fetch(GOOGLE_SCRIPT_URL, {
+
                     method: "POST",
+
                     body: JSON.stringify(payload)
+
                 });
+
                 const res = await response.json();
 
+
+
                 if (res.status === "success") {
+
                     if (authMode === "login") {
+
                         currentUser = res.user;
+
+                        // SIMPAN SESI LOGIN KE LOCALSTORAGE
+
+                        localStorage.setItem('currentUser', JSON.stringify(currentUser));
+
                         document.getElementById('auth-modal').classList.add('hidden');
+
                         updateUserUI();
+
                         if (currentUser.role === 'siswa') {
+
                             muatDataPengerjaanSiswa(currentUser.email);
+
                         }
+
                     } else {
+
                         alert("Registrasi Siswa Berhasil! Silakan Log In.");
+
                         switchAuthTab('login');
+
                         document.getElementById('auth-email').value = email;
+
                         document.getElementById('auth-password').value = "";
+
                     }
+
                 } else if (res.status === "need_code" || res.status === "pending_verification") {
+
                     alert(res.message);
+
                     bukaVerifyModal(email);
+
                 } else {
+
                     alert(res.message || "Terjadi kesalahan.");
+
                 }
+
             } catch (err) {
+
                 alert("Terjadi kesalahan koneksi.");
+
             } finally {
+
                 document.getElementById('btn-loader').classList.add('hidden');
+
             }
+
         }
+
+
 
         function bukaVerifyModal(email) {
+
             document.getElementById('verify-guru-email').value = email;
+
             document.getElementById('verify-guru-code').value = "";
+
             document.getElementById('verify-guru-modal').classList.remove('hidden');
+
         }
+
+
 
         function tutupVerifyModal() {
+
             document.getElementById('verify-guru-modal').classList.add('hidden');
+
         }
 
+
+
         async function handleVerifyGuruCode(e) {
+
             e.preventDefault();
+
             const email = document.getElementById('verify-guru-email').value;
+
             const kode = document.getElementById('verify-guru-code').value.trim();
+
+
 
             document.getElementById('verify-loader').classList.remove('hidden');
 
+
+
             const payload = {
+
                 action: "verify_guru_code",
+
                 email: email,
+
                 kode: kode
+
             };
 
+
+
             try {
+
                 const response = await fetch(GOOGLE_SCRIPT_URL, {
+
                     method: "POST",
+
                     body: JSON.stringify(payload)
+
                 });
+
                 const res = await response.json();
 
+
+
                 if (res.status === "success") {
+
                     alert(res.message);
+
                     tutupVerifyModal();
+
                     switchAuthTab('login');
+
                     document.getElementById('auth-email').value = email;
+
                     document.getElementById('auth-password').value = "";
+
                 } else {
+
                     alert(res.message || "Kode verifikasi salah!");
+
                 }
+
             } catch (err) {
+
                 alert("Terjadi kesalahan koneksi.");
+
             } finally {
+
                 document.getElementById('verify-loader').classList.add('hidden');
+
             }
+
         }
+
+
 
         function updateUserUI() {
+
             if(!currentUser) return;
+
+
+
             document.getElementById('user-display-name').innerText = currentUser.nama;
+
             document.getElementById('user-display-role').innerText = currentUser.role;
 
+
+
             if (currentUser.role === 'guru') {
+
                 document.getElementById('guru-menu-group').classList.remove('hidden');
+
                 document.getElementById('btn-edit-materi')?.classList.remove('hidden');
+
             } else {
+
                 document.getElementById('guru-menu-group').classList.add('hidden');
+
                 document.getElementById('btn-edit-materi')?.classList.add('hidden');
+
             }
+
+
 
             muatMateriTerbaru();
+
         }
+
+
 
         function logout() {
+
+            // HAPUS SESI TERSEMPAN SAAT LOGOUT
+
+            localStorage.removeItem('currentUser');
+
+            localStorage.removeItem('currentTab');
+
             location.reload();
+
         }
+
+
 
         function sorotAnotasi(bagian) {
+
             const pOri = document.getElementById('model-text-orientasi');
+
             const pPer = document.getElementById('model-text-peristiwa');
+
             const pReo = document.getElementById('model-text-reorientasi');
 
+
+
             const btnOri = document.getElementById('btn-anotasi-orientasi');
+
             const btnPer = document.getElementById('btn-anotasi-peristiwa');
+
             const btnReo = document.getElementById('btn-anotasi-reorientasi');
 
+
+
             pOri.className = "transition-all duration-300";
+
             pPer.className = "transition-all duration-300";
+
             pReo.className = "transition-all duration-300";
 
+
+
             btnOri.className = "px-5 py-2.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 transition-all border border-slate-200";
+
             btnPer.className = "px-5 py-2.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 transition-all border border-slate-200";
+
             btnReo.className = "px-5 py-2.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 transition-all border border-slate-200";
 
+
+
             if (bagian === 'orientasi') {
+
                 pOri.className = "anotasi-active-orientasi transition-all duration-300";
+
                 btnOri.className = "px-5 py-2.5 rounded-xl text-xs font-bold bg-purple-600 text-white shadow-md shadow-purple-600/30 transition-all";
+
             } else if (bagian === 'peristiwa') {
+
                 pPer.className = "anotasi-active-peristiwa transition-all duration-300";
+
                 btnPer.className = "px-5 py-2.5 rounded-xl text-xs font-bold bg-sky-600 text-white shadow-md shadow-sky-600/30 transition-all";
+
             } else if (bagian === 'reorientasi') {
+
                 pReo.className = "anotasi-active-reorientasi transition-all duration-300";
+
                 btnReo.className = "px-5 py-2.5 rounded-xl text-xs font-bold bg-emerald-600 text-white shadow-md shadow-emerald-600/30 transition-all";
+
             }
+
         }
+
+
 
         function pilihTokohDirect(namaTokoh, profesi) {
+
             const formNama = document.getElementById('form-nama-tokoh');
+
             const formProfesi = document.getElementById('form-profesi-tokoh');
+
             if (formNama) formNama.value = namaTokoh;
+
             if (formProfesi) formProfesi.value = profesi;
 
+
+
             alert(`Kamu memilih tokoh "${namaTokoh}". Nama & profesinya telah otomatis diisikan pada form Data Tokoh.`);
+
             switchTab('datatokoh');
+
         }
+
+
 
         async function muatDataPengerjaanSiswa(email) {
+
             try {
+
                 const response = await fetch(GOOGLE_SCRIPT_URL);
+
                 const res = await response.json();
+
+
 
                 if (res.status === "success" && res.data) {
+
                     const dataSiswa = res.data.find(d => d.email === email);
+
                     if (dataSiswa) {
+
                         if (dataSiswa.skorDiagnostik !== undefined && dataSiswa.skorDiagnostik !== "" && dataSiswa.skorDiagnostik !== "-") {
+
                             userSkorDiagnostik = parseInt(dataSiswa.skorDiagnostik) || 0;
+
                             isDiagnostikDone = true;
+
                             kunciFormDiagnostik(userSkorDiagnostik);
+
                         }
+
                         if (dataSiswa.pemantikTokoh && dataSiswa.pemantikTokoh !== "-") {
+
                             document.getElementById('pemantik-tokoh').value = dataSiswa.pemantikTokoh;
+
                         }
+
                         if (dataSiswa.pemantikNilai && dataSiswa.pemantikNilai !== "-") {
+
                             document.getElementById('pemantik-nilai').value = dataSiswa.pemantikNilai;
+
                         }
+
                         if (dataSiswa.namaTokoh && dataSiswa.namaTokoh !== "-") {
+
                             document.getElementById('form-nama-tokoh').value = dataSiswa.namaTokoh;
+
                         }
+
                         if (dataSiswa.ttlTokoh && dataSiswa.ttlTokoh !== "-") {
+
                             document.getElementById('form-ttl-tokoh').value = dataSiswa.ttlTokoh;
+
                         }
+
                         if (dataSiswa.profesiTokoh && dataSiswa.profesiTokoh !== "-") {
+
                             document.getElementById('form-profesi-tokoh').value = dataSiswa.profesiTokoh;
+
                         }
+
                         if (dataSiswa.peristiwaTokoh && dataSiswa.peristiwaTokoh !== "-") {
+
                             document.getElementById('form-peristiwa-tokoh').value = dataSiswa.peristiwaTokoh;
+
                         }
+
                         if (dataSiswa.keteladananTokoh && dataSiswa.keteladananTokoh !== "-") {
+
                             document.getElementById('form-keteladanan-tokoh').value = dataSiswa.keteladananTokoh;
+
                         }
+
                         if (dataSiswa.outline && dataSiswa.outline !== "-") {
+
                             const matchOri = dataSiswa.outline.match(/\[Orientasi\]:\s*(.*?)(?=\s*\|\s*\[Peristiwa\]|$)/);
+
                             const matchPer = dataSiswa.outline.match(/\[Peristiwa\]:\s*(.*?)(?=\s*\|\s*\[Reorientasi\]|$)/);
+
                             const matchReo = dataSiswa.outline.match(/\[Reorientasi\]:\s*(.*)/);
 
+
+
                             if (matchOri && matchOri[1]) document.getElementById('form-outline-orientasi').value = matchOri[1];
+
                             if (matchPer && matchPer[1]) document.getElementById('form-outline-peristiwa').value = matchPer[1];
+
                             if (matchReo && matchReo[1]) document.getElementById('form-outline-reorientasi').value = matchReo[1];
+
                         }
+
                         if (dataSiswa.drafTeks && dataSiswa.drafTeks !== "-") {
+
                             document.getElementById('draft-textarea').value = dataSiswa.drafTeks;
+
                             updateWordCount();
+
                         }
+
                         if (dataSiswa.statusRevisi === "Lengkap & Selesai") {
+
                             document.getElementById('chk-revisi-1').checked = true;
+
                             document.getElementById('chk-revisi-2').checked = true;
+
                             document.getElementById('chk-revisi-3').checked = true;
+
                             document.getElementById('chk-revisi-4').checked = true;
+
                         }
+
                         if (dataSiswa.refleksi && dataSiswa.refleksi !== "-") {
+
                             document.getElementById('form-refleksi').value = dataSiswa.refleksi;
+
                         }
+
                     }
+
                 }
+
             } catch (err) {
+
                 console.log("Error memuat data siswa:", err);
+
             }
+
         }
+
+
 
         function kunciFormDiagnostik(score) {
+
             document.querySelectorAll('#tab-diagnostik input[type="radio"]').forEach(el => el.disabled = true);
+
             const submitBtn = document.getElementById('btn-submit-diag');
+
             if (submitBtn) {
+
                 submitBtn.disabled = true;
+
                 submitBtn.classList.remove('bg-brand-600', 'hover:bg-brand-700');
+
                 submitBtn.classList.add('bg-slate-400', 'cursor-not-allowed');
+
                 submitBtn.innerHTML = `<i class="fa-solid fa-lock"></i><span>Kuis Sudah Dikerjakan</span>`;
+
             }
+
+
 
             const resultBox = document.getElementById('diag-result');
+
             const scoreText = document.getElementById('diag-score-text');
+
             const feedbackText = document.getElementById('diag-feedback');
 
+
+
             if(resultBox) resultBox.classList.remove('hidden');
+
             if(scoreText) scoreText.innerText = `Skor Diagnostik Anda: ${score} / 100 (Terkunci)`;
+
             if(feedbackText) feedbackText.innerText = "Anda sudah menyelesaikan kuis diagnostik ini sebelumnya.";
+
         }
+
+
 
         function validasiKelengkapan() {
+
             const pemantikTokoh = document.getElementById('pemantik-tokoh')?.value.trim();
+
             const pemantikNilai = document.getElementById('pemantik-nilai')?.value.trim();
+
             if (!pemantikTokoh || !pemantikNilai) {
+
                 alert("Peringatan: Harap lengkapi pertanyaan refleksi pada menu 3. Pemantik!");
+
                 switchTab('pemantik');
+
                 return false;
+
             }
+
+
 
             if (!isDiagnostikDone) {
+
                 alert("Peringatan: Kamu belum menyelesaikan Kuis Diagnostik Pemahaman di menu 5!");
+
                 switchTab('diagnostik');
+
                 return false;
+
             }
+
+
 
             const namaTokoh = document.getElementById('form-nama-tokoh')?.value.trim();
+
             const ttlTokoh = document.getElementById('form-ttl-tokoh')?.value.trim();
+
             const profesiTokoh = document.getElementById('form-profesi-tokoh')?.value.trim();
+
             const peristiwaTokoh = document.getElementById('form-peristiwa-tokoh')?.value.trim();
+
             const keteladananTokoh = document.getElementById('form-keteladanan-tokoh')?.value.trim();
+
             if (!namaTokoh || !ttlTokoh || !profesiTokoh || !peristiwaTokoh || !keteladananTokoh) {
+
                 alert("Peringatan: Harap isi seluruh field pada menu 7. Data Tokoh!");
+
                 switchTab('datatokoh');
+
                 return false;
+
             }
+
+
 
             const outOri = document.getElementById('form-outline-orientasi')?.value.trim();
+
             const outPer = document.getElementById('form-outline-peristiwa')?.value.trim();
+
             const outReo = document.getElementById('form-outline-reorientasi')?.value.trim();
+
             if (!outOri || !outPer || !outReo) {
+
                 alert("Peringatan: Harap lengkapi kerangka paragraf pada menu 8. Kerangka Teks (Outline)!");
+
                 switchTab('outline');
+
                 return false;
+
             }
+
+
 
             const drafTeks = document.getElementById('draft-textarea')?.value.trim();
+
             if (!drafTeks) {
+
                 alert("Peringatan: Draf teks biografi belum diisi di menu 9. Draf Teks!");
+
                 switchTab('draf');
+
                 return false;
+
             }
 
+
+
             const chk1 = document.getElementById('chk-revisi-1')?.checked;
+
             const chk2 = document.getElementById('chk-revisi-2')?.checked;
+
             const chk3 = document.getElementById('chk-revisi-3')?.checked;
+
             const chk4 = document.getElementById('chk-revisi-4')?.checked;
+
             if (!chk1 || !chk2 || !chk3 || !chk4) {
+
                 alert("Peringatan: Harap centang seluruh poin kriteria pada menu 10. Revisi!");
+
                 switchTab('revisi');
+
                 return false;
+
             }
+
+
 
             return true;
+
         }
+
+
 
         function toggleEditMateri() {
+
             const container = document.getElementById('sub-definisi');
+
             const btnText = document.getElementById('text-edit-materi');
 
+
+
             if (!isEditingMateri) {
+
                 const currentContent = document.getElementById('materi-definisi-text').innerText;
+
                 container.innerHTML = `
+
                     <div class="space-y-3">
+
                         <label class="font-bold text-xs text-slate-700">Edit Pengertian Teks Biografi:</label>
+
                         <textarea id="input-edit-materi" class="w-full p-3 border border-amber-300 rounded-xl text-xs h-32 focus:ring-2 focus:ring-amber-500 outline-none">${currentContent}</textarea>
+
                         <button onclick="simpanMateriGuru()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-4 py-2 rounded-xl text-xs flex items-center space-x-2 shadow-sm transition-all">
+
                             <i class="fa-solid fa-floppy-disk"></i>
+
                             <span>Simpan Perubahan</span>
+
                         </button>
+
                     </div>
+
                 `;
+
                 btnText.innerText = "Batal Edit";
+
                 isEditingMateri = true;
+
             } else {
+
                 muatMateriTerbaru();
+
                 btnText.innerText = "Edit Materi";
+
                 isEditingMateri = false;
+
             }
+
         }
+
+
 
         async function simpanMateriGuru() {
+
             const materiBaru = document.getElementById('input-edit-materi').value;
 
+
+
             const payload = {
+
                 action: "simpanMateri",
+
                 materi: materiBaru
+
             };
 
+
+
             try {
+
                 const response = await fetch(GOOGLE_SCRIPT_URL, {
+
                     method: "POST",
+
                     body: JSON.stringify(payload)
+
                 });
+
                 const res = await response.json();
+
                 if (res.status === "success") {
+
                     alert("Materi berhasil diperbarui!");
+
                     isEditingMateri = false;
+
                     document.getElementById('text-edit-materi').innerText = "Edit Materi";
+
                     muatMateriTerbaru();
+
                 }
+
             } catch (err) {
+
                 alert("Gagal menyimpan materi.");
+
             }
+
         }
+
+
 
         async function muatMateriTerbaru() {
+
             try {
+
                 const response = await fetch(GOOGLE_SCRIPT_URL + "?action=getMateri");
+
                 const res = await response.json();
+
                 if (res.status === "success" && res.materi) {
+
                     const container = document.getElementById('sub-definisi');
+
                     container.innerHTML = `
+
                         <div class="bg-brand-50/50 p-5 rounded-2xl border border-brand-100">
+
                             <h3 class="font-bold text-brand-800 text-sm mb-2">Pengertian Teks Biografi</h3>
+
                             <p id="materi-definisi-text" class="text-xs text-slate-600 leading-relaxed">${res.materi}</p>
+
                         </div>
+
                     `;
+
                 }
+
             } catch (err) {
+
                 console.log("Menggunakan materi default bawaan.");
+
             }
+
         }
+
+
 
         async function simpanRefleksiSaja() {
+
             if (!currentUser || currentUser.role !== 'siswa') return;
+
             await simpanJawabanSiswa(false);
+
             alert("Refleksi berhasil disimpan!");
+
         }
+
+
 
         async function simpanJawabanSiswa(isUploadBtn = false) {
+
             if (!currentUser || currentUser.role !== 'siswa') return;
 
+
+
             if (isUploadBtn) {
+
                 const isValid = validasiKelengkapan();
+
                 if (!isValid) return;
+
             }
+
+
 
             const submitIcon = document.getElementById('btn-submit-icon');
+
             const submitText = document.getElementById('btn-submit-text');
+
             const submitBtn = document.getElementById('btn-submit-revisi');
 
+
+
             if (isUploadBtn) {
+
                 if(submitIcon) submitIcon.className = "fa-solid fa-spinner fa-spin text-sm";
+
                 if(submitText) submitText.innerText = "Mengirim...";
+
                 if(submitBtn) submitBtn.disabled = true;
+
             }
+
+
 
             const outOrientasi = document.getElementById('form-outline-orientasi')?.value || "";
+
             const outPeristiwa = document.getElementById('form-outline-peristiwa')?.value || "";
+
             const outReorientasi = document.getElementById('form-outline-reorientasi')?.value || "";
+
             const outlineCombined = (outOrientasi || outPeristiwa || outReorientasi) ? `[Orientasi]: ${outOrientasi} | [Peristiwa]: ${outPeristiwa} | [Reorientasi]: ${outReorientasi}` : "-";
 
+
+
             const chk1 = document.getElementById('chk-revisi-1')?.checked;
+
             const chk2 = document.getElementById('chk-revisi-2')?.checked;
+
             const chk3 = document.getElementById('chk-revisi-3')?.checked;
+
             const chk4 = document.getElementById('chk-revisi-4')?.checked;
+
             const statusRevisi = (chk1 && chk2 && chk3 && chk4) ? "Lengkap & Selesai" : "Sebagian Terlewati";
 
+
+
             const payload = {
+
                 action: "simpanJawaban",
+
                 email: currentUser.email,
+
                 nama: currentUser.nama,
+
                 skorDiagnostik: userSkorDiagnostik,
+
                 pemantikTokoh: document.getElementById('pemantik-tokoh')?.value || "-",
+
                 pemantikNilai: document.getElementById('pemantik-nilai')?.value || "-",
+
                 namaTokoh: document.getElementById('form-nama-tokoh')?.value || "-",
+
                 ttlTokoh: document.getElementById('form-ttl-tokoh')?.value || "-",
+
                 profesiTokoh: document.getElementById('form-profesi-tokoh')?.value || "-",
+
                 peristiwaTokoh: document.getElementById('form-peristiwa-tokoh')?.value || "-",
+
                 keteladananTokoh: document.getElementById('form-keteladanan-tokoh')?.value || "-",
+
                 outline: outlineCombined,
+
                 drafTeks: document.getElementById('draft-textarea')?.value || "-",
+
                 statusRevisi: statusRevisi,
+
                 refleksi: document.getElementById('form-refleksi')?.value || "-"
+
             };
 
+
+
             try {
+
                 const response = await fetch(GOOGLE_SCRIPT_URL, {
+
                     method: "POST",
+
                     body: JSON.stringify(payload)
+
                 });
+
                 const res = await response.json();
+
                 if (res.status === "success") {
+
                     if (isUploadBtn) {
+
                         document.getElementById('modal-selesai').classList.remove('hidden');
+
                     } else {
+
                         const autoSaveToast = document.createElement('div');
+
                         autoSaveToast.className = "fixed bottom-5 right-5 bg-slate-900 text-white text-xs px-4 py-2.5 rounded-xl shadow-lg z-50 transition-all opacity-100";
+
                         autoSaveToast.innerHTML = '<i class="fa-solid fa-circle-check text-emerald-400 mr-2"></i>Perubahan berhasil disimpan!';
+
                         document.body.appendChild(autoSaveToast);
+
                         setTimeout(() => autoSaveToast.remove(), 2500);
+
                     }
+
                 }
+
             } catch (err) {
+
                 if (isUploadBtn) alert("Gagal mengunggah data.");
+
             } finally {
+
                 if (isUploadBtn) {
+
                     if(submitIcon) submitIcon.className = "fa-solid fa-cloud-arrow-up text-sm";
+
                     if(submitText) submitText.innerText = "Upload";
+
                     if(submitBtn) submitBtn.disabled = false;
+
                 }
+
             }
+
         }
+
+
 
         function tutupModalSelesai() {
+
             document.getElementById('modal-selesai').classList.add('hidden');
+
             switchTab('refleksi');
+
         }
+
+
 
         function checkDiagnostic() {
+
             if (isDiagnostikDone) return alert("Anda sudah mengisi kuis diagnostik ini!");
 
+
+
             const key = { diag_q1: 'A', diag_q2: 'B', diag_q3: 'A', diag_q4: 'A', diag_q5: 'A', diag_q6: 'A' };
+
             let score = 0;
 
+
+
             for(let q in key) {
+
                 const selected = document.querySelector(`input[name="${q}"]:checked`);
+
                 if(selected && selected.value === key[q]) {
+
                     score += Math.round(100 / 6);
+
                 }
+
             }
+
+
 
             userSkorDiagnostik = score;
+
             isDiagnostikDone = true;
+
             kunciFormDiagnostik(score);
 
+
+
             if (currentUser) {
+
                 simpanJawabanSiswa(false);
+
             }
+
         }
+
+
 
         async function muatDataGuru() {
+
             const tbody = document.getElementById('tabel-siswa-body');
+
             tbody.innerHTML = '<tr><td colspan="14" class="p-4 text-center text-slate-400">Memuat data rekap...</td></tr>';
 
+
+
             try {
+
                 const response = await fetch(GOOGLE_SCRIPT_URL);
+
                 const res = await response.json();
 
+
+
                 if (res.status === "success" && res.data.length > 0) {
+
                     tbody.innerHTML = '';
+
                     res.data.forEach(item => {
+
                         tbody.innerHTML += `
+
                             <tr class="hover:bg-slate-50 border-b border-slate-100">
+
                                 <td class="p-3 font-semibold text-slate-800">${item.nama || '-'}</td>
+
                                 <td class="p-3 text-slate-500 text-[11px]">${item.email || '-'}</td>
+
                                 <td class="p-3"><span class="bg-brand-50 text-brand-700 font-bold px-2 py-0.5 rounded-full">${item.skorDiagnostik || 0}/100</span></td>
+
                                 <td class="p-3 text-slate-600">${item.pemantikTokoh || '-'}</td>
+
                                 <td class="p-3 text-slate-600">${item.pemantikNilai || '-'}</td>
+
                                 <td class="p-3 font-bold text-slate-700">${item.namaTokoh || '-'}</td>
+
                                 <td class="p-3 text-slate-600">${item.ttlTokoh || '-'}</td>
+
                                 <td class="p-3 text-slate-600">${item.profesiTokoh || '-'}</td>
+
                                 <td class="p-3 text-slate-600 max-w-xs truncate" title="${item.peristiwaTokoh}">${item.peristiwaTokoh || '-'}</td>
+
                                 <td class="p-3 text-slate-600 max-w-xs truncate" title="${item.keteladananTokoh}">${item.keteladananTokoh || '-'}</td>
+
                                 <td class="p-3 text-slate-600 max-w-xs truncate" title="${item.outline}">${item.outline || '-'}</td>
+
                                 <td class="p-3 text-slate-600 max-w-xs truncate" title="${item.drafTeks}">${item.drafTeks || '-'}</td>
+
                                 <td class="p-3"><span class="text-[10px] font-bold px-2 py-0.5 rounded ${item.statusRevisi === 'Lengkap & Selesai' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'}">${item.statusRevisi || '-'}</span></td>
+
                                 <td class="p-3 text-slate-600 max-w-xs truncate" title="${item.refleksi}">${item.refleksi || '-'}</td>
+
                             </tr>
+
                         `;
+
                     });
+
                 } else {
+
                     tbody.innerHTML = '<tr><td colspan="14" class="p-4 text-center text-slate-400">Belum ada data pengerjaan siswa.</td></tr>';
+
                 }
+
             } catch (err) {
+
                 tbody.innerHTML = '<tr><td colspan="14" class="p-4 text-center text-rose-500">Gagal mengambil data.</td></tr>';
+
             }
+
         }
+
+
 
         const stepMapping = {
+
             'beranda': 1,
+
             'kompetensi': 2,
+
             'pemantik': 3,
+
             'materi': 4,
+
             'diagnostik': 5,
+
             'model': 6,
+
             'datatokoh': 7,
+
             'outline': 8,
+
             'draf': 9,
+
             'revisi': 10
+
         };
 
+
+
         function toggleSidebar() {
+
             const sidebar = document.getElementById('app-sidebar');
+
             const overlay = document.getElementById('mobile-overlay');
+
             if (sidebar.classList.contains('-translate-x-full')) {
+
                 sidebar.classList.remove('-translate-x-full');
+
                 overlay.classList.remove('hidden');
+
             } else {
+
                 sidebar.classList.add('-translate-x-full');
+
                 overlay.classList.add('hidden');
+
             }
+
         }
+
+
 
         function closeSidebar() {
+
             const sidebar = document.getElementById('app-sidebar');
+
             const overlay = document.getElementById('mobile-overlay');
+
             if (sidebar && overlay) {
+
                 sidebar.classList.add('-translate-x-full');
+
                 overlay.classList.add('hidden');
+
             }
+
         }
+
+
 
         function switchTab(tabId) {
+
             closeSidebar();
 
+
+
             if (['pemantik', 'datatokoh', 'outline', 'draf', 'revisi', 'refleksi'].includes(currentTabId)) {
+
                 if (currentUser && currentUser.role === 'siswa') {
+
                     simpanJawabanSiswa(false);
+
                 }
+
             }
+
             currentTabId = tabId;
 
+            // SIMPAN POSISI TAB TERAKHIR KE LOCALSTORAGE
+
+            localStorage.setItem('currentTab', tabId);
+
+
+
             document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+
             
+
             const target = document.getElementById('tab-' + tabId);
+
             if (target) target.classList.remove('hidden');
 
+
+
             document.querySelectorAll('.nav-btn').forEach(btn => {
+
                 btn.classList.remove('bg-brand-50', 'text-brand-700', 'font-semibold');
+
                 btn.classList.add('text-slate-600', 'font-medium');
+
             });
+
             const activeBtn = document.getElementById('btn-' + tabId);
+
             if (activeBtn) {
+
                 activeBtn.classList.add('bg-brand-50', 'text-brand-700', 'font-semibold');
+
                 activeBtn.classList.remove('text-slate-600', 'font-medium');
+
             }
+
+
 
             if (stepMapping[tabId]) {
+
                 const currentStep = stepMapping[tabId];
+
                 const totalSteps = 10;
+
                 const percentage = (currentStep / totalSteps) * 100;
 
+
+
                 const progressText = document.getElementById('progress-text');
+
                 if (progressText) {
+
                     progressText.innerText = `Langkah ${currentStep} dari ${totalSteps}`;
+
                 }
+
+
 
                 const progressBar = document.getElementById('progress-bar');
+
                 if (progressBar) {
+
                     progressBar.style.width = `${percentage}%`;
+
                 }
+
             }
+
+
 
             if (tabId === 'dashboard-guru') {
+
                 muatDataGuru();
+
             }
+
         }
+
+
 
         function switchSubMateri(subId) {
+
             document.querySelectorAll('.submateri-content').forEach(el => el.classList.add('hidden'));
+
             const target = document.getElementById('sub-' + subId);
+
             if(target) target.classList.remove('hidden');
 
+
+
             document.querySelectorAll('.submateri-btn').forEach(btn => {
+
                 btn.classList.remove('border-brand-600', 'text-brand-600');
+
                 btn.classList.add('border-transparent', 'text-slate-500');
+
             });
 
+
+
             const activeSubBtn = document.getElementById('subbtn-' + subId);
+
             if(activeSubBtn) {
+
                 activeSubBtn.classList.add('border-brand-600', 'text-brand-600');
+
                 activeSubBtn.classList.remove('border-transparent', 'text-slate-500');
+
             }
+
         }
 
+
+
         function updateWordCount() {
+
             const textarea = document.getElementById('draft-textarea');
+
             if(!textarea) return;
+
             const text = textarea.value.trim();
+
             const words = text ? text.split(/\s+/).length : 0;
+
             const wordCountEl = document.getElementById('word-count');
+
             if(wordCountEl) wordCountEl.innerText = words + ' Kata';
+
         }
+
     </script>
+
 </body>
+
 </html>

@@ -10,6 +10,10 @@
 
     <title>E-Modul Interaktif - Ruang Biografi</title>
 
+    <!-- Favicon SVG Interaktif (Buku Ruang Biografi) -->
+
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><path fill='%237c3aed' d='M464 96h-192V80c0-26.5-21.5-48-48-48H48C21.5 32 0 53.5 0 80v320c0 26.5 21.5 48 48 48h176c26.5 0 48-21.5 48-48V144h192c8.8 0 16-7.2 16-16V112c0-8.8-7.2-16-16-16zM224 400c0 8.8-7.2 16-16 16H48c-8.8 0-16-7.2-16-16V80c0-8.8 7.2-16 16-16h176v336zm240-272h-176v256h176V128z'/></svg>">
+
     <!-- Tailwind CSS CDN -->
 
     <script src="https://cdn.tailwindcss.com"></script>
@@ -40,7 +44,7 @@
 
                             50: '#f5f3ff', 100: '#ede9fe', 200: '#ddd6fe',
 
-                            500: '#7c3aed', 600: '#6d28d9', 700: '#5b21b6',
+                            300: '#c4b5fd', 500: '#7c3aed', 600: '#6d28d9', 700: '#5b21b6',
 
                             800: '#4c1d95', 900: '#3b0764',
 
@@ -54,7 +58,41 @@
 
         }
 
+
+
+        // Fallback jika gambar gagal dimuat
+
+        function handleImageError(img, nama) {
+
+            const initials = nama ? nama.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase() : 'TK';
+
+            const parent = img.parentElement;
+
+            if (parent) {
+
+                parent.innerHTML = `
+
+                    <div class="w-full h-full bg-gradient-to-br from-brand-600 to-brand-800 flex flex-col items-center justify-center text-white p-4 text-center">
+
+                        <div class="w-14 h-14 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center font-extrabold text-xl mb-2 shadow-inner">
+
+                            ${initials}
+
+                        </div>
+
+                        <span class="font-bold text-xs tracking-wider uppercase opacity-90">${nama}</span>
+
+                    </div>
+
+                `;
+
+            }
+
+        }
+
     </script>
+
+
 
     <style>
 
@@ -95,8 +133,6 @@
         }
 
 
-
-        /* --- ANIMASI DINAMIS & INTERAKTIF ELEGAN --- */
 
         @keyframes fadeInSlideUp {
 
@@ -158,8 +194,6 @@
 
 
 
-        /* Micro-interactions: Cards & Buttons */
-
         .card-hover-effect {
 
             transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
@@ -195,8 +229,6 @@
         }
 
 
-
-        /* Anotasi highlight interaktif dengan glow lembut */
 
         .anotasi-active-orientasi { 
 
@@ -256,8 +288,6 @@
 
         <div class="bg-white rounded-3xl p-8 max-w-md w-full shadow-2xl border border-slate-100 space-y-6">
 
-            
-
             <div class="text-center space-y-2">
 
                 <div class="w-14 h-14 bg-gradient-to-tr from-brand-700 to-brand-500 rounded-2xl flex items-center justify-center text-white mx-auto text-2xl shadow-lg shadow-brand-500/30">
@@ -293,8 +323,6 @@
 
 
             <form id="auth-form" onsubmit="handleAuth(event)" class="space-y-4 text-xs">
-
-                
 
                 <div id="signup-fields" class="space-y-4 hidden">
 
@@ -510,10 +538,6 @@
 
     <!-- MAIN APP STRUCTURE -->
 
-
-
-    <!-- MOBILE TOPBAR HEADER -->
-
     <header class="lg:hidden bg-white border-b border-slate-200 p-4 flex items-center justify-between shrink-0 z-30">
 
         <div class="flex items-center space-x-3">
@@ -543,8 +567,6 @@
     </header>
 
 
-
-    <!-- BACKDROP OVERLAY UNTUK MOBILE SIDEBAR -->
 
     <div id="mobile-overlay" onclick="closeSidebar()" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-30 hidden lg:hidden transition-opacity"></div>
 
@@ -800,8 +822,6 @@
 
                 <div id="tab-beranda" class="tab-content block space-y-8 animate-fade-in">
 
-                    <!-- Hero Banner Card -->
-
                     <div class="bg-gradient-to-r from-brand-700 to-brand-600 rounded-3xl p-8 md:p-10 text-white shadow-xl glow-effect relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-8">
 
                         <div class="space-y-4 max-w-xl z-10">
@@ -836,8 +856,6 @@
 
 
 
-                        <!-- Notebook Illustration Card -->
-
                         <div class="relative z-10 w-full md:w-72 bg-white/95 backdrop-blur-md p-4 rounded-2xl shadow-2xl border border-white/40 space-y-3 animate-float transition-all duration-300">
 
                             <div class="h-32 bg-slate-100 rounded-xl overflow-hidden relative border border-slate-200">
@@ -857,8 +875,6 @@
                     </div>
 
 
-
-                    <!-- Three Feature Cards Below -->
 
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
@@ -914,8 +930,6 @@
 
                 <div id="tab-kompetensi" class="tab-content hidden space-y-8 animate-fade-in">
 
-                    <!-- Section Title & Subtitle -->
-
                     <div class="space-y-1">
 
                         <span class="text-[10px] font-bold text-brand-600 uppercase tracking-widest">ARAH BELAJAR</span>
@@ -926,11 +940,7 @@
 
 
 
-                    <!-- Two Main Cards: CP & TP -->
-
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-
-                        <!-- CP Card (spanning 2 cols) -->
 
                         <div class="md:col-span-2 bg-white p-8 rounded-3xl border border-slate-200 shadow-sm space-y-4">
 
@@ -945,8 +955,6 @@
                         </div>
 
 
-
-                        <!-- TP Card -->
 
                         <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm space-y-4">
 
@@ -985,8 +993,6 @@
                     </div>
 
 
-
-                    <!-- Sintaks Pedagogi Genre Section -->
 
                     <div class="space-y-4 pt-4">
 
@@ -1052,45 +1058,29 @@
 
 
 
-                        <!-- Video Thumbnail Card -->
+                        <!-- Embedded YouTube Video Container -->
 
                         <div class="space-y-3">
 
-                            <a href="https://www.youtube.com/watch?v=8-I-NfNqA6g" target="_blank" rel="noopener noreferrer" class="group relative block w-full overflow-hidden rounded-2xl shadow-lg aspect-video bg-slate-900 border border-slate-800">
+                            <div class="relative w-full overflow-hidden rounded-2xl shadow-lg aspect-video bg-slate-900 border border-slate-200">
 
-                                <img src="https://img.youtube.com/vi/8-I-NfNqA6g/maxresdefault.jpg" alt="Video Pemantik Habibie" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-300">
+                                <iframe class="w-full h-full" src="https://www.youtube.com/embed/jXDUjbmDck0" title="Video Pemantik Habibie" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
-                                
-
-                                <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-all flex flex-col items-center justify-center p-4">
-
-                                    <div class="w-16 h-16 bg-red-600 group-hover:bg-red-700 text-white rounded-2xl flex items-center justify-center shadow-xl group-hover:scale-110 transition-all duration-300 mb-3">
-
-                                        <i class="fa-solid fa-play text-2xl ml-1"></i>
-
-                                    </div>
-
-                                    <span class="bg-black/60 backdrop-blur-md text-white font-bold text-xs px-4 py-2 rounded-xl border border-white/20 shadow-md flex items-center space-x-2">
-
-                                        <i class="fa-brands fa-youtube text-red-500 text-sm"></i>
-
-                                        <span>Klik untuk Tonton di YouTube</span>
-
-                                        <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
-
-                                    </span>
-
-                                </div>
-
-                            </a>
+                            </div>
 
                             
 
-                            <div class="flex items-center justify-between text-xs text-slate-500 px-1">
+                            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between text-xs text-slate-500 gap-2 px-1">
 
-                                <span class="italic">Video Pemantik: Perjalanan Hidup & Perjuangan B.J. Habibie</span>
+                                <span class="italic font-medium text-slate-600">
 
-                                <a href="https://www.youtube.com/watch?v=8-I-NfNqA6g" target="_blank" rel="noopener noreferrer" class="inline-flex items-center space-x-1.5 font-bold text-red-600 hover:text-red-700 bg-red-50 hover:bg-red-100 px-3 py-1.5 rounded-lg transition-all">
+                                    Video Pemantik: Kisah & Perjalanan Inspiratif Tokoh <br class="hidden sm:inline">
+
+                                    <span class="text-slate-400 font-normal">Sumber: Youtube/AkuPaham - Biografi, Inspirasi, Motivasi/Biografi BJ Habibie (Animasi) - Presiden & Teknokrat Pesawat Terbang Jenius Kebanggaan Indonesia</span>
+
+                                </span>
+
+                                <a href="https://youtu.be/jXDUjbmDck0?si=ox3A-1FNzTC3IVsE" target="_blank" rel="noopener noreferrer" class="inline-flex items-center space-x-1.5 font-bold text-red-600 hover:text-red-700 bg-red-50 hover:bg-red-100 px-3.5 py-2 rounded-xl transition-all shrink-0">
 
                                     <i class="fa-brands fa-youtube text-sm"></i>
 
@@ -1155,8 +1145,6 @@
                                 <p class="text-xs text-slate-500 mt-1">Pelajari pengertian, struktur, dan kaidah kebahasaan secara menyeluruh.</p>
 
                             </div>
-
-                            <!-- Tombol Edit Khusus Guru -->
 
                             <button id="btn-edit-materi" onclick="toggleEditMateri()" class="hidden bg-amber-500 hover:bg-amber-600 text-white font-bold px-4 py-2 rounded-xl text-xs flex items-center space-x-2 transition-all shadow-sm">
 
@@ -1328,8 +1316,6 @@
 
                         <div class="space-y-6">
 
-                            <!-- Soal 1 -->
-
                             <div class="p-5 rounded-2xl border border-slate-200 space-y-3 bg-slate-50/50">
 
                                 <p class="text-sm font-semibold text-slate-800">1. Apa perbedaan mendasar antara teks biografi dan otobiografi?</p>
@@ -1357,8 +1343,6 @@
                             </div>
 
 
-
-                            <!-- Soal 2 -->
 
                             <div class="p-5 rounded-2xl border border-slate-200 space-y-3 bg-slate-50/50">
 
@@ -1388,8 +1372,6 @@
 
 
 
-                            <!-- Soal 3 -->
-
                             <div class="p-5 rounded-2xl border border-slate-200 space-y-3 bg-slate-50/50">
 
                                 <p class="text-sm font-semibold text-slate-800">3. Bagian Reorientasi pada teks biografi berisikan...</p>
@@ -1417,8 +1399,6 @@
                             </div>
 
 
-
-                            <!-- Soal 4 -->
 
                             <div class="p-5 rounded-2xl border border-slate-200 space-y-3 bg-slate-50/50">
 
@@ -1448,8 +1428,6 @@
 
 
 
-                            <!-- Soal 5 -->
-
                             <div class="p-5 rounded-2xl border border-slate-200 space-y-3 bg-slate-50/50">
 
                                 <p class="text-sm font-semibold text-slate-800">5. Kata ganti (pronomina) utama yang digunakan dalam teks biografi adalah...</p>
@@ -1477,8 +1455,6 @@
                             </div>
 
 
-
-                            <!-- Soal 6 -->
 
                             <div class="p-5 rounded-2xl border border-slate-200 space-y-3 bg-slate-50/50">
 
@@ -1544,10 +1520,6 @@
 
                 <div id="tab-model" class="tab-content hidden space-y-8 animate-fade-in">
 
-                    
-
-                    <!-- KARTU 1: TEKS MODEL BERANOTASI -->
-
                     <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm space-y-6">
 
                         <div class="border-b border-slate-100 pb-4">
@@ -1561,8 +1533,6 @@
                         </div>
 
 
-
-                        <!-- KOTAK TAMPILAN TEKS DENGAN JUDUL -->
 
                         <div class="p-8 bg-slate-50/70 border border-slate-200 rounded-2xl space-y-4">
 
@@ -1595,8 +1565,6 @@
                         </div>
 
 
-
-                        <!-- TOMBOL-TOMBOL ANOTASI INTERAKTIF -->
 
                         <div class="flex flex-wrap gap-3 pt-2">
 
@@ -1640,11 +1608,7 @@
 
 
 
-                        <!-- GRID KARTU KANDIDAT TOKOH (FOTO ASLI SESUAI TOKOH) -->
-
                         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-
-                            
 
                             <!-- Tokoh 1: Sri Mulyani -->
 
@@ -1652,7 +1616,7 @@
 
                                 <div class="h-44 bg-slate-200 overflow-hidden relative">
 
-                                    <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/Sri_Mulyani_Indrawati_2024.jpg" alt="Sri Mulyani" class="w-full h-full object-cover object-top group-hover:scale-105 transition-all duration-300">
+                                    <img src="https://media.kemenkeu.go.id/getmedia/69249198-778d-404a-ac08-18d61e14a620/Menkeu-Sri-Mulyani-Indrawati-Masuk-Dalam-Forbes-50-Over-50-Asia-2023-1_2?width=900&height=600&ext=.jpg" referrerpolicy="no-referrer" onerror="handleImageError(this, 'Sri Mulyani')" alt="Sri Mulyani" class="w-full h-full object-cover object-top group-hover:scale-105 transition-all duration-300">
 
                                 </div>
 
@@ -1674,7 +1638,7 @@
 
                                 <div class="h-44 bg-slate-200 overflow-hidden relative">
 
-                                    <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Chairul_Tanjung_-_World_Economic_Forum_on_East_Asia_2011.jpg" alt="Chairul Tanjung" class="w-full h-full object-cover object-top group-hover:scale-105 transition-all duration-300">
+                                    <img src="https://blue.kumparan.com/image/upload/fl_progressive,fl_lossy,c_fill,f_auto,q_auto:best,w_640/v1556106053/sywjjroqgs8gb7v0ay6z.jpg" referrerpolicy="no-referrer" onerror="handleImageError(this, 'Chairul Tanjung')" alt="Chairul Tanjung" class="w-full h-full object-cover object-top group-hover:scale-105 transition-all duration-300">
 
                                 </div>
 
@@ -1696,7 +1660,7 @@
 
                                 <div class="h-44 bg-slate-200 overflow-hidden relative">
 
-                                    <img src="https://upload.wikimedia.org/wikipedia/commons/e/ec/William_Tanuwidjaja_2023.jpg" alt="William Tanuwijaya" class="w-full h-full object-cover object-top group-hover:scale-105 transition-all duration-300">
+                                    <img src="http://shiftindonesia.com/wp-content/uploads/2025/07/From-Zero-To-Hero-William-Tanuwijaya-Founder-Tokopedia.jpg" referrerpolicy="no-referrer" onerror="handleImageError(this, 'William Tanuwijaya')" alt="William Tanuwijaya" class="w-full h-full object-cover object-top group-hover:scale-105 transition-all duration-300">
 
                                 </div>
 
@@ -1718,7 +1682,7 @@
 
                                 <div class="h-44 bg-slate-200 overflow-hidden relative">
 
-                                    <img src="https://upload.wikimedia.org/wikipedia/commons/3/37/Nadiem_Makarim_Official_Portrait.jpg" alt="Nadiem Makarim" class="w-full h-full object-cover object-top group-hover:scale-105 transition-all duration-300">
+                                    <img src="https://img.antarafoto.com/cache/799x1200/2025/07/15/nadiem-makarim-diperiksa-kejagung-1j6l1-dom.jpg" referrerpolicy="no-referrer" onerror="handleImageError(this, 'Nadiem Makarim')" alt="Nadiem Makarim" class="w-full h-full object-cover object-top group-hover:scale-105 transition-all duration-300">
 
                                 </div>
 
@@ -1740,7 +1704,7 @@
 
                                 <div class="h-44 bg-slate-200 overflow-hidden relative">
 
-                                    <img src="https://upload.wikimedia.org/wikipedia/commons/6/67/Sandiaga_Uno_2022_%28cropped%29.jpg" alt="Sandiaga Uno" class="w-full h-full object-cover object-top group-hover:scale-105 transition-all duration-300">
+                                    <img src="https://img.antarafoto.com/cache/799x1200/2024/07/31/sandiaga-uno-hadiri-mukernas-dpp-partai-perindo-1clv3-dom.jpg" referrerpolicy="no-referrer" onerror="handleImageError(this, 'Sandiaga Uno')" alt="Sandiaga Uno" class="w-full h-full object-cover object-top group-hover:scale-105 transition-all duration-300">
 
                                 </div>
 
@@ -1762,7 +1726,7 @@
 
                                 <div class="h-44 bg-slate-200 overflow-hidden relative">
 
-                                    <img src="https://upload.wikimedia.org/wikipedia/commons/2/22/Martha_Tilaar_2015.jpg" alt="Martha Tilaar" class="w-full h-full object-cover object-top group-hover:scale-105 transition-all duration-300">
+                                    <img src="https://roemahmarthatilaar.org/wp-content/uploads/2022/08/profile_IMT.jpg" referrerpolicy="no-referrer" onerror="handleImageError(this, 'Martha Tilaar')" alt="Martha Tilaar" class="w-full h-full object-cover object-top group-hover:scale-105 transition-all duration-300">
 
                                 </div>
 
@@ -1784,7 +1748,7 @@
 
                                 <div class="h-44 bg-slate-200 overflow-hidden relative">
 
-                                    <img src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&q=80&w=400" alt="Akuntan Inspiratif" class="w-full h-full object-cover object-center group-hover:scale-105 transition-all duration-300">
+                                    <img src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&q=80&w=400" referrerpolicy="no-referrer" onerror="handleImageError(this, 'Akuntan Inspiratif')" alt="Akuntan Inspiratif" class="w-full h-full object-cover object-center group-hover:scale-105 transition-all duration-300">
 
                                 </div>
 
@@ -1798,13 +1762,9 @@
 
                             </div>
 
-
-
                         </div>
 
                     </div>
-
-
 
                 </div>
 
@@ -1862,7 +1822,7 @@
 
                                 <label class="font-bold text-slate-700 block mb-1">Rintangan & Perjuangan Utama:</label>
 
-                                <textarea id="form-peristiwa-tokoh" placeholder="Tuliskan tantangan berat yang pernah dihadapi dan bagaimana tokoh mengatasinya..." class="w-full p-3 border border-slate-200 rounded-xl h-24 outline-none focus:ring-2 focus:ring-brand-500"></textarea>
+                                <textarea id="form-peristiwa-tokoh" placeholder="Tuliskan tantangan berat yang pernah dihadapi dan bagaimana tokoh mengatasinya..." class="w-full p-3 border border-slate-200 rounded-xl h-24 outline-none focus:ring-2 focus:ring-brand-500 leading-relaxed"></textarea>
 
                             </div>
 
@@ -1900,29 +1860,33 @@
 
 
 
-                        <div class="space-y-4 text-xs">
+                        <div class="space-y-5 text-xs">
 
-                            <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200 space-y-2">
+                            <div class="p-5 bg-slate-50/70 rounded-2xl border border-slate-200 space-y-2">
 
-                                <span class="font-bold text-brand-700">1. Poin Paragraf Orientasi (Pembuka):</span>
+                                <span class="font-bold text-brand-700 text-sm block">1. Poin Paragraf Orientasi (Pembuka):</span>
 
-                                <input type="text" id="form-outline-orientasi" placeholder="Garis besar pengenalan tokoh, tempat lahir, dan keluarga..." class="w-full p-2.5 bg-white border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-brand-500">
-
-                            </div>
-
-                            <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200 space-y-2">
-
-                                <span class="font-bold text-brand-700">2. Poin Paragraf Peristiwa Penting (Isi / Karir):</span>
-
-                                <input type="text" id="form-outline-peristiwa" placeholder="Garis besar kisah perjuangan, pendidikan, dan karya tokoh..." class="w-full p-2.5 bg-white border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-brand-500">
+                                <textarea id="form-outline-orientasi" placeholder="Tuliskan garis besar pengenalan tokoh, tempat tanggal lahir, keluarga, dan latar belakang..." class="w-full p-3.5 bg-white border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-brand-500 h-28 leading-relaxed resize-y"></textarea>
 
                             </div>
 
-                            <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200 space-y-2">
 
-                                <span class="font-bold text-brand-700">3. Poin Paragraf Reorientasi (Penutup):</span>
 
-                                <input type="text" id="form-outline-reorientasi" placeholder="Garis besar pesan moral dan simpulan keteladanan tokoh..." class="w-full p-2.5 bg-white border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-brand-500">
+                            <div class="p-5 bg-slate-50/70 rounded-2xl border border-slate-200 space-y-2">
+
+                                <span class="font-bold text-brand-700 text-sm block">2. Poin Paragraf Peristiwa Penting (Isi / Karir):</span>
+
+                                <textarea id="form-outline-peristiwa" placeholder="Tuliskan garis besar kisah perjuangan, pendidikan, rintangan, dan karya tokoh..." class="w-full p-3.5 bg-white border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-brand-500 h-28 leading-relaxed resize-y"></textarea>
+
+                            </div>
+
+
+
+                            <div class="p-5 bg-slate-50/70 rounded-2xl border border-slate-200 space-y-2">
+
+                                <span class="font-bold text-brand-700 text-sm block">3. Poin Paragraf Reorientasi (Penutup):</span>
+
+                                <textarea id="form-outline-reorientasi" placeholder="Tuliskan garis besar pesan moral, pandangan penulis, dan simpulan keteladanan tokoh..." class="w-full p-3.5 bg-white border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-brand-500 h-28 leading-relaxed resize-y"></textarea>
 
                             </div>
 
@@ -2017,8 +1981,6 @@
                         </div>
 
 
-
-                        <!-- TOMBOL REVISI DAN SUBMIT -->
 
                         <div class="pt-4 border-t border-slate-100 flex items-center justify-end space-x-3">
 
@@ -2194,7 +2156,7 @@
 
 
 
-        // OTOMATIS MEMULIHKAN SESI PENGGUNA SAAT HALAMAN DI-REFRESH
+        // MEMULIHKAN SESI PENGGUNA SECARA OTOMATIS SAAT REFRESH
 
         window.addEventListener('DOMContentLoaded', () => {
 
@@ -2342,7 +2304,7 @@
 
                         currentUser = res.user;
 
-                        // SIMPAN SESI LOGIN KE LOCALSTORAGE
+                        // SIMPAN SESI KE LOCALSTORAGE BROWSER
 
                         localStorage.setItem('currentUser', JSON.stringify(currentUser));
 
@@ -2490,8 +2452,6 @@
 
             if(!currentUser) return;
 
-
-
             document.getElementById('user-display-name').innerText = currentUser.nama;
 
             document.getElementById('user-display-role').innerText = currentUser.role;
@@ -2522,7 +2482,7 @@
 
         function logout() {
 
-            // HAPUS SESI TERSEMPAN SAAT LOGOUT
+            // HAPUS DATA SESI TERSIMPAN
 
             localStorage.removeItem('currentUser');
 
@@ -3400,7 +3360,7 @@
 
             currentTabId = tabId;
 
-            // SIMPAN POSISI TAB TERAKHIR KE LOCALSTORAGE
+            // SIMPAN TAB TERAKHIR KE LOCALSTORAGE
 
             localStorage.setItem('currentTab', tabId);
 
